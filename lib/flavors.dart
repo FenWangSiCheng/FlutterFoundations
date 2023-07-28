@@ -22,4 +22,16 @@ class F {
     }
   }
 
+  static bool get isProduction {
+    switch (appFlavor) {
+      case Flavor.develop:
+        return false;
+      case Flavor.staging:
+        return false;
+      case Flavor.production:
+        return true;
+      default:
+        return true;
+    }
+  }
 }

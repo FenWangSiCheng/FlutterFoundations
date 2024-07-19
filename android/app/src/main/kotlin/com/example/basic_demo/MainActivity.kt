@@ -1,4 +1,4 @@
-package com.example.flutter_foundations
+package com.example.basic_demo
 
 import io.flutter.embedding.android.FlutterActivity
 

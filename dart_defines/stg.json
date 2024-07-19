@@ -1,0 +1,6 @@
+{
+  "appName": "BaseDemo_STG",
+  "appBanner": "STG",
+  "baseUrl": "http://127.0.0.1:8081",
+  "mockApiDataSource": false
+}

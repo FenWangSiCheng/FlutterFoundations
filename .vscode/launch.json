@@ -1,0 +1,95 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "dev",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "args": [
+                "--flavor=dev",
+                "--dart-define-from-file=dart_defines/dev.json"
+            ]
+        },
+        {
+            "name": "dev (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor=dev",
+                "--dart-define-from-file=dart_defines/dev.json"
+            ]
+        },
+        {
+            "name": "dev (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "args": [
+                "--flavor=dev",
+                "--dart-define-from-file=dart_defines/dev.json"
+            ]
+        },
+        {
+            "name": "prod",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "args": [
+                "--flavor=prod",
+                "--dart-define-from-file=dart_defines/prod.json"
+            ]
+        },
+        {
+            "name": "prod (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor=prod",
+                "--dart-define-from-file=dart_defines/prod.json"
+            ]
+        },
+        {
+            "name": "prod (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "args": [
+                "--flavor=prod",
+                "--dart-define-from-file=dart_defines/prod.json"
+            ]
+        },
+        {
+            "name": "stg",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "args": [
+                "--flavor=stg",
+                "--dart-define-from-file=dart_defines/stg.json"
+            ]
+        },
+        {
+            "name": "stg (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor=stg",
+                "--dart-define-from-file=dart_defines/stg.json"
+            ]
+        },
+        {
+            "name": "stg (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "args": [
+                "--flavor=stg",
+                "--dart-define-from-file=dart_defines/stg.json"
+            ]
+        }
+    ]
+}

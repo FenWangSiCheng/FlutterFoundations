@@ -1,6 +1,5 @@
 {
-  "appName": "BaseDemo_Dev",
-  "appBanner": "DEV",
+  "appName": "Foundation Dev",
   "baseUrl": "http://127.0.0.1:8081",
   "mockApiDataSource": true
 }

@@ -1,18 +1,22 @@
-import 'dart:convert';
-
-import 'package:core/apis/api_service.dart';
+import 'package:dio/dio.dart';
 import 'package:core/data/models/user_model.dart';
+import 'package:injectable/injectable.dart';
 
-class RemoteDataSource {
-  final ApiService apiService;
+abstract class RemoteDataSource {
+  Future<UserModel> getUser(String userId);
+}
 
-  RemoteDataSource(this.apiService);
+@Injectable(as: RemoteDataSource)
+class RemoteDataSourceImpl implements RemoteDataSource {
+  final Dio dio;
 
+  RemoteDataSourceImpl(this.dio);
+
+  @override
   Future<UserModel> getUser(String userId) async {
-    final response = await apiService.get('/users/$userId');
+    final response = await dio.get('/users/$userId');
     if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.data);
-      return UserModel.fromJson(data);
+      return UserModel.fromJson(response.data);
     } else {
       throw Exception('Failed to load user');
     }

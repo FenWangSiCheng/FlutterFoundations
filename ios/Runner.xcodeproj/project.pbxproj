@@ -572,6 +572,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 533H75UL22;
+				PRODUCT_BUNDLE_IDENTIFIER = "cn.com.fenrir-inc.iosAppTest.dev";
 				PRODUCT_NAME = Runner;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";
@@ -582,7 +583,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 886DD36C05529372254EDB67 /* Pods-Runner.profile-dev.xcconfig */;
 			buildSettings = {
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 533H75UL22;
+				PRODUCT_BUNDLE_IDENTIFIER = "cn.com.fenrir-inc.iosAppTest.dev";
 				PRODUCT_NAME = Runner;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";
 			};
 			name = "Profile-dev";
 		};
@@ -590,7 +594,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 106F8AF82F69140F4E230C3E /* Pods-Runner.release-dev.xcconfig */;
 			buildSettings = {
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 533H75UL22;
+				PRODUCT_BUNDLE_IDENTIFIER = "cn.com.fenrir-inc.iosAppTest.dev";
 				PRODUCT_NAME = Runner;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";
 			};
 			name = "Release-dev";
 		};
@@ -598,7 +605,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C0E1251AD05B40B9FD5C2850 /* Pods-Runner.debug-stg.xcconfig */;
 			buildSettings = {
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 533H75UL22;
 				PRODUCT_NAME = Runner;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";
 			};
 			name = "Debug-stg";
 		};
@@ -606,7 +615,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7797AE6DE33524157052652F /* Pods-Runner.profile-stg.xcconfig */;
 			buildSettings = {
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 533H75UL22;
 				PRODUCT_NAME = Runner;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";
 			};
 			name = "Profile-stg";
 		};
@@ -614,7 +625,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8E2B0E1936C4BB036A77044C /* Pods-Runner.release-stg.xcconfig */;
 			buildSettings = {
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 533H75UL22;
 				PRODUCT_NAME = Runner;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";
 			};
 			name = "Release-stg";
 		};
@@ -622,7 +635,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B7F375799E98EF5ABD4344EB /* Pods-Runner.debug-prod.xcconfig */;
 			buildSettings = {
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 533H75UL22;
+				PRODUCT_BUNDLE_IDENTIFIER = "cn.com.fenrir-inc.iosAppTest";
 				PRODUCT_NAME = Runner;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";
 			};
 			name = "Debug-prod";
 		};
@@ -630,7 +646,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9A11C4B64F78E0AF04FC2E27 /* Pods-Runner.profile-prod.xcconfig */;
 			buildSettings = {
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 533H75UL22;
+				PRODUCT_BUNDLE_IDENTIFIER = "cn.com.fenrir-inc.iosAppTest";
 				PRODUCT_NAME = Runner;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";
 			};
 			name = "Profile-prod";
 		};
@@ -638,7 +657,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34085394DD8A8CD1B49F0E90 /* Pods-Runner.release-prod.xcconfig */;
 			buildSettings = {
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 533H75UL22;
+				PRODUCT_BUNDLE_IDENTIFIER = "cn.com.fenrir-inc.iosAppTest";
 				PRODUCT_NAME = Runner;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";
 			};
 			name = "Release-prod";
 		};
@@ -646,7 +668,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A59C86CFC346DEFAE2F1EDB8 /* Pods-RunnerTests.debug-dev.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = RunnerTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Debug-dev";
 		};
@@ -654,7 +679,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BAF88DD4BDC707D9CBF7F3DF /* Pods-RunnerTests.profile-dev.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = RunnerTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Profile-dev";
 		};
@@ -662,7 +690,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A174BFDBC1F9F00240126F0E /* Pods-RunnerTests.release-dev.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = RunnerTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Release-dev";
 		};
@@ -670,7 +701,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0B538A65C3AF54AE5696A58F /* Pods-RunnerTests.debug-stg.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = RunnerTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Debug-stg";
 		};
@@ -678,7 +712,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E895B2E995A0D8E51426D82D /* Pods-RunnerTests.profile-stg.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = RunnerTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Profile-stg";
 		};
@@ -686,7 +723,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7EE69C9961FA3D3048B53B6D /* Pods-RunnerTests.release-stg.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = RunnerTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Release-stg";
 		};
@@ -694,7 +734,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CFF957A170EB1A2DFB390C91 /* Pods-RunnerTests.debug-prod.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = RunnerTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Debug-prod";
 		};
@@ -702,7 +745,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 23076693AFE97A6E277370FD /* Pods-RunnerTests.profile-prod.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = RunnerTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Profile-prod";
 		};
@@ -710,7 +756,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 62760AAAB519DF7FD9686BD3 /* Pods-RunnerTests.release-prod.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = RunnerTests;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Release-prod";
 		};
@@ -766,7 +815,7 @@
 		};
 		249021D4217E4FDB00AE95B9 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			baseConfigurationReference = 51ED27CD842935BDF3182464 /* Pods-Runner.profile.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -780,7 +829,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterFoundations;
+				PRODUCT_BUNDLE_IDENTIFIER = "cn.com.fenrir-inc.iosAppTest";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";
@@ -795,12 +844,14 @@
 			baseConfigurationReference = 596A6CEF77E842BF1DBF71E2 /* Pods-RunnerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterFoundations.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -813,12 +864,14 @@
 			baseConfigurationReference = E90624A420EA5FB587DE7706 /* Pods-RunnerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterFoundations.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Runner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Runner";
 			};
@@ -829,12 +882,14 @@
 			baseConfigurationReference = A8743FC8D1B5268AFC43E46B /* Pods-RunnerTests.profile.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterFoundations.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Runner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Runner";
 			};
@@ -1106,7 +1161,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterFoundations;
+				PRODUCT_BUNDLE_IDENTIFIER = "cn.com.fenrir-inc.iosAppTest";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";
@@ -1133,7 +1188,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterFoundations;
+				PRODUCT_BUNDLE_IDENTIFIER = "cn.com.fenrir-inc.iosAppTest";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Wildcard Development Profile";

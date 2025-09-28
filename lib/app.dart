@@ -16,7 +16,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: _flavorBanner(
-        child: MyHomePage(),
+        child: const MyHomePage(),
         show: kDebugMode,
       ),
     );
@@ -31,8 +31,8 @@ class App extends StatelessWidget {
         child: child,
         location: BannerLocation.topStart,
         message: F.name,
-        color: Colors.green.withOpacity(0.6),
-        textStyle: TextStyle(
+        color: Colors.green.withValues(alpha: 0.6),
+        textStyle: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 12.0,
             letterSpacing: 1.0),

@@ -1,6 +1,3 @@
 {
-  "appName": "Foundation Dev",
-  "baseUrl": "http://127.0.0.1:8081",
-  "mockApiDataSource": true,
-  "isNeedProxy": true
+  "flavor": "dev"
 }

@@ -5,8 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:system_proxy/system_proxy.dart';
-import '../flavors.dart';
-import '../res/constant.dart';
+import '../main.dart';
 import 'api/interceptor/auth_interceptor.dart';
 
 Future<Dio> provideDio() async {
@@ -28,7 +27,7 @@ Future<Dio> provideDio() async {
 }
 
 BaseOptions _options = BaseOptions(
-  baseUrl: Constants.baseUrl[F.appFlavor]!,
+  baseUrl: appConfig.baseUrl,
   connectTimeout: const Duration(seconds: 10),
   receiveTimeout: const Duration(seconds: 10),
 );
@@ -60,7 +59,7 @@ Future<String> _getSystemProxy() async {
 
 _InitAction _stagingProxy(String proxy) {
   return (HttpClient client) {
-    if (!F.isProduction && proxy.isNotEmpty) {
+    if (!appConfig.isProduction && proxy.isNotEmpty) {
       client.findProxy = (uri) => proxy;
       client.badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;

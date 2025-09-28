@@ -1,5 +1,5 @@
 import 'dart:io';
-import '../app_config.dart';
+import '../main.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +19,7 @@ Future<Dio> provideDio() async {
 }
 
 BaseOptions _options = BaseOptions(
-  baseUrl: AppConfig.baseUrl,
+  baseUrl: appConfig.baseUrl,
   connectTimeout: const Duration(seconds: 10),
   receiveTimeout: const Duration(seconds: 10),
 );
@@ -51,7 +51,7 @@ Future<String> _getSystemProxy() async {
 
 _InitAction _stagingProxy(String proxy) {
   return (HttpClient client) {
-    if (AppConfig.isNeedProxy && proxy.isNotEmpty) {
+    if (appConfig.isNeedProxy && proxy.isNotEmpty) {
       client.findProxy = (uri) => proxy;
       client.badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;

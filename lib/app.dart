@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_foundations/app_config.dart';
+import 'main.dart';
 import 'pages/my_home_page.dart';
 
 class App extends StatelessWidget {
@@ -27,7 +27,7 @@ class App extends StatelessWidget {
       show
           ? Banner(
               location: BannerLocation.topStart,
-              message: AppConfig.appName,
+              message: appConfig.appName,
               color: Colors.green.withValues(alpha: 0.6),
               textStyle: const TextStyle(
                   fontWeight: FontWeight.w700,

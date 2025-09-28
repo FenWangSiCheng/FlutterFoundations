@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_foundations/app_config.dart';
+import '../main.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -8,11 +8,11 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(AppConfig.appName),
+        title: Text(appConfig.appName),
       ),
-      body: const Center(
+      body: Center(
         child: Text(
-          'Hello ${AppConfig.appName}',
+          'Hello ${appConfig.appName}',
         ),
       ),
     );

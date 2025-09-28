@@ -4,7 +4,7 @@ import 'package:flutter_foundations/app_config.dart';
 import 'pages/my_home_page.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class App extends StatelessWidget {
           ? Banner(
               location: BannerLocation.topStart,
               message: AppConfig.appName,
-              color: Colors.green.withOpacity(0.6),
+              color: Colors.green.withValues(alpha: 0.6),
               textStyle: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 12.0,

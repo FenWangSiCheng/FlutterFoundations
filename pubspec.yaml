@@ -5,25 +5,32 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.6 <4.0.0"
+  sdk: ">=3.9.2 <4.0.0"
+
 
 dependencies:
   flutter:
     sdk: flutter
-  dio: ^5.6.0
-  get_it: ^7.7.0
-  flutter_bloc: ^8.1.6
-  shared_preferences: ^2.3.2
-  flutter_inappwebview: ^6.0.0
-  injectable: ^2.4.4
+
+  dio: ^5.9.0
+  get_it: ^8.2.0
+  flutter_bloc: ^9.1.1
+  shared_preferences: ^2.5.3
+  flutter_inappwebview: ^6.1.5
+  injectable: ^2.5.1
+  system_proxy: ^0.1.0
+
+  core:
+    path: module/core
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^6.0.0
   mockito: ^5.4.4
-  injectable_generator: ^2.6.2
-  build_runner: ^2.4.12
+  injectable_generator: ^2.8.1
+  build_runner: ^2.4.13
 
 flutter:
   uses-material-design: true

@@ -1,4 +1,5 @@
 export 'apis/api_service.dart';
+export 'app_config.dart';
 export 'data/datasource/remote_datasource.dart';
 export 'data/models/user_model.dart';
 export 'data/repositories/user_repository_impl.dart';

@@ -1,5 +1,5 @@
-import 'package:core/apis/client.dart';
-import 'package:core/injection.config.dart';
+import 'apis/client.dart';
+import 'injection.config.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';

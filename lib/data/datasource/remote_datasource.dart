@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:core/data/models/user_model.dart';
+import '../models/user_model.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class RemoteDataSource {

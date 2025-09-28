@@ -1,4 +1,6 @@
-import 'package:core/core.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/repositories/user_repository.dart';
+import '../datasource/remote_datasource.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: UserRepository)

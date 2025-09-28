@@ -20,8 +20,6 @@ dependencies:
   injectable: ^2.5.1
   system_proxy: ^0.1.0
 
-  core:
-    path: module/core
 
 
 dev_dependencies:

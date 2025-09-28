@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:core/app_config.dart';
+import '../app_config.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/cupertino.dart';

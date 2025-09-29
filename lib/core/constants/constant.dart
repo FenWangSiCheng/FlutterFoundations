@@ -1,4 +1,4 @@
-import '../app_config.dart';
+import '../config/app_config.dart';
 
 class Constants {
   static const baseUrl = {

@@ -10,16 +10,16 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
+import 'package:flutter_foundations/core/injection/injection.dart' as _i379;
 import 'package:flutter_foundations/core/network/dio_client.dart' as _i542;
-import 'package:flutter_foundations/data/datasource/remote_datasource.dart'
+import 'package:flutter_foundations/features/user/data/datasource/remote_datasource.dart'
     as _i961;
-import 'package:flutter_foundations/data/repositories/user_repository_impl.dart'
+import 'package:flutter_foundations/features/user/data/repositories/user_repository_impl.dart'
     as _i294;
-import 'package:flutter_foundations/domain/repositories/user_repository.dart'
+import 'package:flutter_foundations/features/user/domain/repositories/user_repository.dart'
     as _i698;
-import 'package:flutter_foundations/domain/usecase/get_user_use_case.dart'
+import 'package:flutter_foundations/features/user/domain/usecase/get_user_use_case.dart'
     as _i376;
-import 'package:flutter_foundations/injection.dart' as _i812;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -51,4 +51,4 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$RegisterModule extends _i812.RegisterModule {}
+class _$RegisterModule extends _i379.RegisterModule {}

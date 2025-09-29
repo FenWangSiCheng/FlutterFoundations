@@ -480,6 +480,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.5.0"
+  native_flutter_proxy:
+    dependency: "direct main"
+    description:
+      name: native_flutter_proxy
+      sha256: "7ef24d6e6b7500ce58a1e91d93c57d161719d06ad419225a4090869930097416"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.3"
   nested:
     dependency: transitive
     description:
@@ -709,14 +717,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
-  system_proxy:
-    dependency: "direct main"
-    description:
-      name: system_proxy
-      sha256: bbdfc9736a963409941fb0e7c494606c1f13c2be34de15833ee385da83cf7ab0
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
   term_glyph:
     dependency: transitive
     description:

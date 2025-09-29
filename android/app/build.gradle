@@ -75,12 +75,19 @@ android {
     productFlavors {
         dev {
             dimension "environment"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            resValue "string", "app_name", "Flutter Foundations Dev"
         }
         stg {
             dimension "environment"
+            applicationIdSuffix ".stg"
+            versionNameSuffix "-stg"
+            resValue "string", "app_name", "Flutter Foundations Stg"
         }
         prod {
             dimension "environment"
+            resValue "string", "app_name", "Flutter Foundations"
         }
     }
 }

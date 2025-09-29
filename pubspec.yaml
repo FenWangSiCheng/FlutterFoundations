@@ -18,7 +18,7 @@ dependencies:
   shared_preferences: ^2.5.3
   flutter_inappwebview: ^6.1.5
   injectable: ^2.5.1
-  system_proxy: ^0.1.0
+  native_flutter_proxy: ^0.2.3
 
 
 

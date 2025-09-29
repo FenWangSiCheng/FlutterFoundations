@@ -31,6 +31,7 @@ Multi-flavor setup using dart-define-from-file:
 ### Analysis and Testing
 - `fvm flutter analyze` - Static analysis (required before commits)
 - `fvm flutter test` - Run unit tests
+- `fvm flutter test test/specific_test.dart` - Run a single test file
 - `dart format .` - Format code
 
 ## Architecture
@@ -91,7 +92,8 @@ Located in `manage/client.dart`:
 - `get_it` + `injectable` - Dependency injection
 - `shared_preferences` - Local storage
 - `flutter_inappwebview` - WebView integration
-- `system_proxy` - System proxy detection
+- `mockito` - Mocking for unit tests
+- `build_runner` - Code generation
 
 ## Important Notes
 

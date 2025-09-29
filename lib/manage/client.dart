@@ -4,7 +4,7 @@ import 'package:dio/io.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:system_proxy/system_proxy.dart';
+import 'package:native_flutter_proxy/native_flutter_proxy.dart';
 import '../main.dart';
 import 'api/interceptor/auth_interceptor.dart';
 
@@ -47,14 +47,17 @@ extension _DioInitExt on Dio {
 typedef _InitAction = void Function(HttpClient client);
 
 Future<String> _getSystemProxy() async {
-  final proxy = await SystemProxy.getProxySettings();
-  final host = proxy?['host'];
-  final port = proxy?['port'];
-  if (host != null && port != null) {
-    return "PROXY $host:$port";
-  } else {
-    return "";
+  try {
+    final ProxySetting settings = await NativeProxyReader.proxySetting;
+    if (settings.enabled && settings.host != null && settings.port != null) {
+      return "PROXY ${settings.host}:${settings.port}";
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Failed to get system proxy: $e');
+    }
   }
+  return "";
 }
 
 _InitAction _stagingProxy(String proxy) {

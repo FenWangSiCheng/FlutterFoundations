@@ -1,4 +1,4 @@
-import 'apis/client.dart';
+import 'core/network/dio_client.dart';
 import 'injection.config.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -15,7 +15,12 @@ Future<void> configureDependencies() async {
 abstract class RegisterModule {
   @preResolve
   @lazySingleton
-  Future<Dio> dio() async {
-    return provideDio();
+  Future<DioClient> dioClient() async {
+    final client = DioClient();
+    await client.initialize();
+    return client;
   }
+
+  @lazySingleton
+  Dio dio(DioClient dioClient) => dioClient.dio;
 }

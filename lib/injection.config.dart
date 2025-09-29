@@ -10,7 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
-import 'package:flutter_foundations/apis/api_service.dart' as _i831;
+import 'package:flutter_foundations/core/network/dio_client.dart' as _i542;
 import 'package:flutter_foundations/data/datasource/remote_datasource.dart'
     as _i961;
 import 'package:flutter_foundations/data/repositories/user_repository_impl.dart'
@@ -31,14 +31,16 @@ extension GetItInjectableX on _i174.GetIt {
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
-    await gh.lazySingletonAsync<_i361.Dio>(
-      () => registerModule.dio(),
+    await gh.lazySingletonAsync<_i542.DioClient>(
+      () => registerModule.dioClient(),
       preResolve: true,
+    );
+    gh.lazySingleton<_i361.Dio>(
+      () => registerModule.dio(gh<_i542.DioClient>()),
     );
     gh.factory<_i961.RemoteDataSource>(
       () => _i961.RemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.factory<_i831.ApiService>(() => _i831.ApiService(dio: gh<_i361.Dio>()));
     gh.factory<_i698.UserRepository>(
       () => _i294.UserRepositoryImpl(gh<_i961.RemoteDataSource>()),
     );

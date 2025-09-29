@@ -19,6 +19,7 @@ dependencies:
   flutter_inappwebview: ^6.1.5
   injectable: ^2.5.1
   native_flutter_proxy: ^0.2.3
+  http_mock_adapter: ^0.6.1
 
 
 
@@ -32,3 +33,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/mock/

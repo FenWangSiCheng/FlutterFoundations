@@ -3,10 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:native_flutter_proxy/native_flutter_proxy.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
 import '../../main.dart';
 import 'interceptors/auth_interceptor.dart';
+import 'mock/mock_setup.dart';
 
 class DioClient {
   late final Dio _dio;
@@ -18,23 +19,20 @@ class DioClient {
   Future<void> initialize() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    // Load certificates
-    await _loadCertificates();
-
     // Create and configure Dio instance
-    _dio = Dio(_getBaseOptions())
-      ..initHttpClient([
-        await _configureStagingProxy(),
-      ])
-      ..interceptors.addAll(_getInterceptors());
-  }
+    _dio = Dio(_getBaseOptions());
 
-  /// Load and configure SSL certificates
-  Future<void> _loadCertificates() async {
-    ByteData data =
-        await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
-    SecurityContext.defaultContext
-        .setTrustedCertificatesBytes(data.buffer.asUint8List());
+    // Configure adapter based on mock setting
+    if (appConfig.mockApiDataSource) {
+      _setupMockAdapter();
+    } else {
+      _dio.initHttpClient([
+        await _configureStagingProxy(),
+      ]);
+    }
+
+    // Add interceptors
+    _dio.interceptors.addAll(_getInterceptors());
   }
 
   /// Get base options for Dio
@@ -73,6 +71,12 @@ class DioClient {
       }
     }
     return "";
+  }
+
+  /// Setup mock adapter for development environment
+  void _setupMockAdapter() {
+    final dioAdapter = DioAdapter(dio: _dio);
+    MockSetup.configureMockAdapter(dioAdapter);
   }
 
   /// Create staging proxy configuration action

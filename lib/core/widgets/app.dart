@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'pages/my_home_page.dart';
+import '../../main.dart';
+import 'main_tab_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -14,7 +14,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: _flavorBanner(
-        child: const MyHomePage(),
+        child: const MainTabPage(),
         show: kDebugMode,
       ),
     );

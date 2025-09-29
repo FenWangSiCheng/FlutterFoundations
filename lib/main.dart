@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'app.dart';
+import 'core/widgets/app.dart';
 import 'core/config/app_config.dart';
 
 late final AppConfig appConfig;

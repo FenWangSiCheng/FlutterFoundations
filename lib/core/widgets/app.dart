@@ -1,22 +1,28 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
-import 'main_tab_page.dart';
+import '../injection/injection.dart';
+import '../router/app_router.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '',
+    final appRouter = getIt<AppRouter>();
+
+    return MaterialApp.router(
+      title: appConfig.appName,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: _flavorBanner(
-        child: const MainTabPage(),
-        show: kDebugMode,
-      ),
+      routerConfig: appRouter.router,
+      builder: (context, child) {
+        return _flavorBanner(
+          child: child ?? const SizedBox(),
+          show: kDebugMode,
+        );
+      },
     );
   }
 

@@ -32,8 +32,10 @@ Multi-flavor setup using dart-define-from-file:
 
 ### Analysis and Testing
 - `fvm flutter analyze` - Static analysis (required before commits)
-- `fvm flutter test` - Run unit tests
+- `fvm flutter test` - Run all unit tests
 - `fvm flutter test test/specific_test.dart` - Run a single test file
+- `fvm flutter test --coverage` - Run tests with coverage report
+- `fvm flutter test test/features/user/` - Run tests for a specific feature
 - `dart format .` - Format code
 
 ## Architecture
@@ -120,14 +122,82 @@ Located in `core/network/mock/`:
 - `http_mock_adapter` - Mock HTTP responses for development
 - `native_flutter_proxy` - System proxy detection
 
+### State Management with BLoC
+The project uses `flutter_bloc` for state management following the BLoC pattern:
+- **Events** (`*_event.dart`) - User actions or system events that trigger state changes
+- **States** (`*_state.dart`) - Represent different UI states (Initial, Loading, Loaded, Error)
+- **BLoC** (`*_bloc.dart`) - Business logic that transforms events into states
+- All BLoCs are registered with dependency injection using `@injectable`
+- BLoCs receive dependencies (use cases) via constructor injection
+- Use `BlocProvider` to provide BLoCs to widget trees
+- Use `BlocBuilder` to rebuild UI based on state changes
+
+### Testing Strategy
+Comprehensive testing is expected across all layers:
+
+**Unit Tests:**
+- **Domain Layer**: Test entities and use cases in isolation
+- **Data Layer**: Test models, data sources, and repository implementations with mocks
+- **Presentation Layer**: Test BLoCs using `bloc_test` package
+
+**Widget Tests:**
+- Test presentation layer pages and widgets using `flutter_test`
+- Mock BLoCs and verify UI rendering for different states
+- Test user interactions (button taps, form inputs)
+
+**Test File Organization:**
+- Mirror the `lib/` structure in `test/` directory
+- Use `@GenerateMocks` from `mockito` to generate mocks
+- Run `build_runner` after adding new mock annotations
+- Aim for high test coverage (target: >80%)
+
+**Example Test Pattern:**
+```dart
+@GenerateMocks([Repository])
+void main() {
+  late MockRepository mockRepository;
+  late UseCase useCase;
+
+  setUp(() {
+    mockRepository = MockRepository();
+    useCase = UseCase(mockRepository);
+  });
+
+  test('description', () async {
+    // Arrange
+    when(mockRepository.method()).thenAnswer((_) async => result);
+    // Act
+    final result = await useCase();
+    // Assert
+    verify(mockRepository.method()).called(1);
+    expect(result, expected);
+  });
+}
+```
+
+### Error Handling
+Centralized error handling approach:
+- `core/network/error/exception.dart` - Custom exception classes (ApiException, CacheException, etc.)
+- `core/network/error/dio_error_handler.dart` - Converts DioException to custom exceptions
+- Data sources catch and throw custom exceptions
+- Repositories propagate exceptions to use cases
+- BLoCs catch exceptions and emit error states
+- UI layer displays user-friendly error messages
+
 ## Important Notes
 
 - Always run `fvm flutter analyze` before committing changes
+- Generated files (*.g.dart, *.freezed.dart, *.mocks.dart) must be regenerated after cloning or modifying annotations
 - The project follows feature-first organization - keep feature code within its module
 - Respect Clean Architecture layer boundaries: domain → data → presentation
+  - Domain layer has NO dependencies on other layers
+  - Data layer depends only on domain layer
+  - Presentation layer depends on domain and data layers
 - Use the existing DI container (`getIt`) rather than creating manual dependencies
 - Follow the established naming conventions: UpperCamelCase for types, lowerCamelCase for members
 - Flavor-specific resources are organized in platform folders (android/ios have flavor subdirectories)
 - When adding new features, follow the existing feature module structure under `lib/features/`
 - Data models should always have a `toEntity()` method to convert to domain entities
 - The global `appConfig` variable in `main.dart` provides access to configuration throughout the app
+- Use `Equatable` for value equality in events, states, and entities
+- BLoCs should only contain presentation logic; business logic belongs in use cases

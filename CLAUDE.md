@@ -12,9 +12,11 @@ This project uses FVM (Flutter Version Management) with Flutter 3.35.4. Always p
 - `fvm flutter clean && fvm flutter pub get` - Clean and reinstall dependencies
 
 ### Code Generation
-The project uses injectable for dependency injection with build_runner:
-- `fvm flutter packages pub run build_runner build` - Generate dependency injection code
+The project uses build_runner for code generation (injectable, freezed, json_serializable, mockito):
+- `fvm flutter packages pub run build_runner build` - Generate all code (DI, models, mocks)
 - `fvm flutter packages pub run build_runner build --delete-conflicting-outputs` - Force regenerate
+
+**Important**: Generated files (*.g.dart, *.freezed.dart, *.mocks.dart, *.config.dart) are NOT committed to Git. After cloning the repository, you MUST run code generation before building or running the app.
 
 ### Running the App
 Multi-flavor setup using dart-define-from-file:
@@ -111,8 +113,10 @@ Located in `core/network/mock/`:
 - `get_it` + `injectable` - Dependency injection
 - `shared_preferences` - Local storage
 - `flutter_inappwebview` - WebView integration
+- `freezed` + `freezed_annotation` - Immutable data classes with code generation
+- `json_serializable` + `json_annotation` - JSON serialization/deserialization
 - `mockito` - Mocking for unit tests
-- `build_runner` - Code generation
+- `build_runner` - Code generation orchestrator
 - `http_mock_adapter` - Mock HTTP responses for development
 - `native_flutter_proxy` - System proxy detection
 

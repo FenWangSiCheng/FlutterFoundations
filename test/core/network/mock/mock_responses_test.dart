@@ -5,10 +5,11 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('MockResponses', () {
-    test('loadUserList handles missing asset gracefully', () async {
+    test('loadUserList returns bundled users when asset exists', () async {
       final users = await MockResponses.loadUserList();
-      // Should return empty list when asset loading fails in test environment
       expect(users, isA<List<Map<String, dynamic>>>());
+      expect(users, isNotEmpty);
+      expect(users.first.keys, containsAll(['id', 'name', 'email']));
     });
 
     test('getUserById returns null for unknown user', () async {

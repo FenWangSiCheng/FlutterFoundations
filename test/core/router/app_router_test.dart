@@ -88,6 +88,10 @@ void main() {
 
         expect(find.byType(MaterialApp), findsOneWidget);
         await tester.pumpAndSettle();
+        // There are two "Home" texts in the tree: one in the page body
+        // and one as the BottomNavigationBar label. Assert specifically
+        // on the centered body content to avoid ambiguity.
+        expect(find.widgetWithText(Center, 'Home'), findsOneWidget);
       });
 
       testWidgets('should navigate to user page', (tester) async {
@@ -102,6 +106,7 @@ void main() {
 
         expect(appRouter.router.routeInformationProvider.value.uri.path,
             RouterPaths.user);
+        expect(find.text('User Info'), findsOneWidget);
       });
 
       testWidgets('should show error page for invalid route', (tester) async {

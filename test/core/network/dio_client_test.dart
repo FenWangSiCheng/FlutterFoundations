@@ -174,7 +174,7 @@ void main() {
     expect(dio.httpClientAdapter, isA<IOHttpClientAdapter>());
   });
 
-  test('proxy configuration is applied to HttpClient in non-production with valid proxy', () async {
+  test('creates HttpClient in non-production with valid proxy without errors', () async {
     config.update(
       baseUrl: 'https://api.example.com',
       mockApiDataSource: false,
@@ -348,7 +348,11 @@ void _setMockProxyResponse(
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
     if (methodCall.method == 'getProxySetting') {
-      return {'host': host, 'port': port};
+      return {
+        'enabled': true,
+        'host': host,
+        'port': port,
+      };
     }
     return null;
   });

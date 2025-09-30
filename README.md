@@ -422,4 +422,8 @@ Centralized error handling approach throughout the architecture:
 
 ## License
 
-This project is private and not licensed for public use.
+Licensed under the Apache License, Version 2.0.
+
+- See `LICENSE` for the full text of the license.
+- You may use, modify, and distribute this software under the terms of the Apache 2.0 license.
+- Software is provided on an "AS IS" basis, without warranties or conditions of any kind.

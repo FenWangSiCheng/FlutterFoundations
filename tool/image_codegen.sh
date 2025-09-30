@@ -13,7 +13,9 @@ for files in "./$IMAGE_PATH"/*."$SUFFIX_PNG"
 do
   fileName=$(eval "basename $files *.$SUFFIX_PNG")
   withoutSuffix=$(eval "basename $fileName .$SUFFIX_PNG")
-  echo "  static const $withoutSuffix = '$IMAGE_PATH/$fileName';" >> "./$WRITE_TO"
+  # Convert snake_case to lowerCamelCase
+  camelCase=$(echo "$withoutSuffix" | perl -pe 's/_([a-z])/\U$1/g')
+  echo "  static const $camelCase = '$IMAGE_PATH/$fileName';" >> "./$WRITE_TO"
 done
 
 {

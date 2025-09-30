@@ -47,7 +47,7 @@ class AppConfig {
       case Flavor.dev:
         return true;
       case Flavor.stg:
-        return false;
+        return false; 
       case Flavor.prod:
         return false;
     }

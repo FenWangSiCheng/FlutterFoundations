@@ -13,7 +13,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<User> getUser(String userId) async {
     try {
       final userModel = await remoteDataSource.getUser(userId);
-      return userModel.toEntity();
+      return User.fromJson(userModel);
     } catch (e) {
       throw Exception('Failed to get user: $e');
     }

@@ -24,7 +24,7 @@ class DioClient {
 
     // Configure adapter based on mock setting
     if (appConfig.mockApiDataSource) {
-      _setupMockAdapter();
+      await _setupMockAdapter();
     } else {
       _dio.initHttpClient([
         await _configureStagingProxy(),
@@ -74,9 +74,10 @@ class DioClient {
   }
 
   /// Setup mock adapter for development environment
-  void _setupMockAdapter() {
+  Future<void> _setupMockAdapter() async {
     final dioAdapter = DioAdapter(dio: _dio);
-    MockSetup.configureMockAdapter(dioAdapter);
+    _dio.httpClientAdapter = dioAdapter;
+    await MockSetup.configureMockAdapter(dioAdapter);
   }
 
   /// Create staging proxy configuration action

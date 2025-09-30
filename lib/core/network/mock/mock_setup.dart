@@ -2,7 +2,10 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'mock_responses.dart';
 
 class MockSetup {
-  static void configureMockAdapter(DioAdapter dioAdapter) {
+  static Future<void> configureMockAdapter(DioAdapter dioAdapter) async {
+    // Pre-load mock data to avoid race conditions
+    await MockResponses.loadUserList();
+
     // Mock for user list
     dioAdapter.onGet(
       '/users',

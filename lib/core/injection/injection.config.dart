@@ -13,13 +13,15 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:flutter_foundations/core/injection/injection.dart' as _i379;
 import 'package:flutter_foundations/core/network/dio_client.dart' as _i542;
 import 'package:flutter_foundations/features/user/data/datasource/remote_datasource.dart'
-    as _i961;
+    as _i653;
 import 'package:flutter_foundations/features/user/data/repositories/user_repository_impl.dart'
-    as _i294;
+    as _i44;
 import 'package:flutter_foundations/features/user/domain/repositories/user_repository.dart'
-    as _i698;
+    as _i776;
 import 'package:flutter_foundations/features/user/domain/usecase/get_user_use_case.dart'
-    as _i376;
+    as _i92;
+import 'package:flutter_foundations/features/user/presentation/bloc/user_bloc.dart'
+    as _i680;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -38,15 +40,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(
       () => registerModule.dio(gh<_i542.DioClient>()),
     );
-    gh.factory<_i961.RemoteDataSource>(
-      () => _i961.RemoteDataSourceImpl(gh<_i361.Dio>()),
+    gh.factory<_i653.RemoteDataSource>(
+      () => _i653.RemoteDataSourceImpl(gh<_i361.Dio>()),
     );
-    gh.factory<_i698.UserRepository>(
-      () => _i294.UserRepositoryImpl(gh<_i961.RemoteDataSource>()),
+    gh.factory<_i776.UserRepository>(
+      () => _i44.UserRepositoryImpl(gh<_i653.RemoteDataSource>()),
     );
-    gh.factory<_i376.GetUserUseCase>(
-      () => _i376.GetUserUseCase(gh<_i698.UserRepository>()),
+    gh.factory<_i92.GetUserUseCase>(
+      () => _i92.GetUserUseCase(gh<_i776.UserRepository>()),
     );
+    gh.factory<_i680.UserBloc>(() => _i680.UserBloc(gh<_i92.GetUserUseCase>()));
     return this;
   }
 }

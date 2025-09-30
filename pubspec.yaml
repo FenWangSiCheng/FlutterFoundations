@@ -15,6 +15,7 @@ dependencies:
   dio: ^5.9.0
   get_it: ^8.2.0
   flutter_bloc: ^9.1.1
+  equatable: ^2.0.5
   shared_preferences: ^2.5.3
   flutter_inappwebview: ^6.1.5
   injectable: ^2.5.1
@@ -36,3 +37,4 @@ flutter:
 
   assets:
     - assets/mock/
+    - assets/images/

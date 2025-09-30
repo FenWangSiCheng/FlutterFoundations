@@ -1,5 +1,3 @@
-import '../../domain/entities/user.dart';
-
 class UserModel {
   final String id;
   final String name;
@@ -26,13 +24,4 @@ class UserModel {
       'email': email,
     };
   }
-
-  User toEntity() {
-    return User(
-      id: id,
-      name: name,
-      email: email,
-    );
-  }
-
 }

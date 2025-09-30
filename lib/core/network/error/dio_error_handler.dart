@@ -13,13 +13,13 @@ Exception handleError(DioException error) {
     case DioExceptionType.badResponse:
       return ApiException(
           "Received invalid status code: ${error.response?.statusCode}");
+    case DioExceptionType.badCertificate:
+      return ApiException("Bad certificate");
     case DioExceptionType.cancel:
       return ApiException("Request to API server was cancelled");
     case DioExceptionType.connectionError:
       return ApiException("Connection error");
     case DioExceptionType.unknown:
       return ApiException("Unexpected error occurred");
-    default:
-      return ApiException("Something went wrong");
   }
 }

@@ -130,5 +130,20 @@ void main() {
 
       expect(result, isA<Exception>());
     });
+
+    test('should handle badResponse error without response object', () {
+      final dioError = DioException(
+        requestOptions: RequestOptions(path: '/test'),
+        type: DioExceptionType.badResponse,
+      );
+
+      final result = handleError(dioError);
+
+      expect(result, isA<ApiException>());
+      expect(
+        (result as ApiException).message,
+        equals('Received invalid status code: null'),
+      );
+    });
   });
 }

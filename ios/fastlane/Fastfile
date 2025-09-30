@@ -23,22 +23,22 @@ platform :ios do
 	ENV["OUTPUT_DIR"] = "./output"
 	ENV["DATE"] = "#{Time.now.strftime("%Y%m%d-%H%M%S")}"
 	ENV["LAST_COMMIT"] = "#{last_git_commit[:abbreviated_commit_hash]}"
-	ENV["IPA_NAME_PREFIX"] = "k-dreams_"
+	ENV["IPA_NAME_PREFIX"] = "flutter_foundations_"
 	ENV["IPA_NAME_SUFFIX"] = "_#{ENV["DATE"]}_#{ENV["LAST_COMMIT"]}"
 	ENV["HOSTNAME"] = "#{get_hostname}"
     end
 
     lane :build_ios_develop do
         setup_code_signing()
-        build(scheme:"develop", method: "development")
+        build(scheme:"dev", method: "development")
     end
 
     lane :build_ios_staging do
-        build(scheme:"staging", method: "app-store")
+        build(scheme:"stg", method: "app-store")
     end
 
     lane :build_ios_production do
-        build(scheme:"production", method: "app-store")
+        build(scheme:"prod", method: "app-store")
     end
 
     private_lane :build do | options |
@@ -49,12 +49,12 @@ platform :ios do
         verify_nil_or_empty(scheme, "Scheme is nil.")
         verify_nil_or_empty(method, "Method is nil.")
 
-	apienv = if scheme == "develop"
+	apienv = if scheme == "dev"
           "dev"
-	elsif scheme == "staging"
-	  "acceptancerelease"
-	elsif scheme == "production"
-	  "productionrelease"
+	elsif scheme == "stg"
+	  "stg"
+	elsif scheme == "prod"
+	  "prod"
         end
 	
 	xcode_name = "/Applications/Xcode-15.1.0.app"

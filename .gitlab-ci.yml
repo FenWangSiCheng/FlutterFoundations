@@ -1,0 +1,164 @@
+before_script:
+  - export JAVA_HOME=`/usr/libexec/java_home -v 17`
+  - fvm flutter config --jdk-dir /opt/homebrew/opt/openjdk@17
+  - fvm install 3.35.4
+  - fvm use 3.35.4
+  - fvm flutter --version
+  - fvm flutter clean
+  - fvm flutter pub get
+  - fvm flutter packages pub run build_runner build --delete-conflicting-outputs
+
+
+stages:
+  - test
+  - build
+  - clean
+
+test:
+  stage: test
+  tags:
+    - android
+    - ios
+  allow_failure: false
+  script:
+    - fvm flutter analyze
+    - fvm flutter test
+
+build_android_dev_apk:
+  stage: build
+  tags:
+    - android
+  script:
+    - fvm flutter build apk --flavor dev --dart-define-from-file=dart_defines/dev.json
+    - mv build/app/outputs/flutter-apk/*.apk .
+  artifacts:
+    name: "flutter_foundations_dev_${CI_COMMIT_REF_SLUG}_${CI_COMMIT_SHA:0:8}"
+    paths:
+      - ./*.apk
+    expire_in: 2 weeks
+
+build_android_stg_apk:
+  stage: build
+  tags:
+    - android
+  script:
+    - fvm flutter build apk --flavor stg --dart-define-from-file=dart_defines/stg.json
+    - mv build/app/outputs/flutter-apk/*.apk .
+  artifacts:
+    name: "flutter_foundations_stg_${CI_COMMIT_REF_SLUG}_${CI_COMMIT_SHA:0:8}"
+    paths:
+      - ./*.apk
+    expire_in: 2 weeks
+
+build_android_stg_debug_apk:
+  stage: build
+  tags:
+    - android
+  script:
+    - fvm flutter build apk --debug --flavor stg --dart-define-from-file=dart_defines/stg.json
+    - mv build/app/outputs/flutter-apk/*.apk .
+  when: manual
+  artifacts:
+    name: "flutter_foundations_stg_debug_${CI_COMMIT_REF_SLUG}_${CI_COMMIT_SHA:0:8}"
+    paths:
+      - ./*.apk
+    expire_in: 2 weeks
+
+build_android_prod_apk:
+  stage: build
+  tags:
+    - android
+  script:
+    - fvm flutter build apk --flavor prod --dart-define-from-file=dart_defines/prod.json
+    - mv build/app/outputs/flutter-apk/*.apk .
+  when: manual
+  artifacts:
+    name: "flutter_foundations_prod_${CI_COMMIT_REF_SLUG}_${CI_COMMIT_SHA:0:8}"
+    paths:
+      - ./*.apk
+    expire_in: 2 weeks
+
+build_android_prod_appbundle:
+  stage: build
+  tags:
+    - android
+  script:
+    - fvm flutter build appbundle --flavor prod --dart-define-from-file=dart_defines/prod.json
+    - mv build/app/outputs/bundle/prodRelease/*.aab .
+  when: manual
+  artifacts:
+    name: "flutter_foundations_prod_aab_${CI_COMMIT_REF_SLUG}_${CI_COMMIT_SHA:0:8}"
+    paths:
+      - ./*.aab
+    expire_in: 2 weeks
+
+build_ios_dev:
+  stage: build
+  tags:
+    - ios
+  script:
+    - export LANG=en_US.UTF-8
+    - export DEVELOPER_DIR=/Applications/Xcode-16.0.0.app/Contents/Developer
+    - cd ./ios
+    - ./scripts/setup.sh
+    - bundle exec fvm flutter build ios --no-codesign --flavor dev --dart-define-from-file=../dart_defines/dev.json
+    - bundle exec fastlane build_ios_develop
+    - cd ../
+    - mv ./ios/output/*.ipa .
+  when: manual
+  artifacts:
+    name: "flutter_foundations_ios_dev_${CI_COMMIT_REF_SLUG}_${CI_COMMIT_SHA:0:8}"
+    paths:
+      - ./*.ipa
+    expire_in: 2 weeks
+
+build_ios_stg:
+  stage: build
+  tags:
+    - ios
+  script:
+    - export LANG=en_US.UTF-8
+    - export DEVELOPER_DIR=/Applications/Xcode-16.0.0.app/Contents/Developer
+    - cd ./ios
+    # Add your environment variables here if needed
+    # - export YOUR_VAR=$YOUR_VAR
+    - ./scripts/setup.sh
+    - bundle exec fvm flutter build ios --no-codesign --flavor stg --dart-define-from-file=../dart_defines/stg.json
+    - bundle exec fastlane build_ios_staging
+    - cd ../
+    - mv ./ios/output/*.ipa .
+  when: manual
+  artifacts:
+    name: "flutter_foundations_ios_stg_${CI_COMMIT_REF_SLUG}_${CI_COMMIT_SHA:0:8}"
+    paths:
+      - ./*.ipa
+    expire_in: 2 weeks
+
+build_ios_prod:
+  stage: build
+  tags:
+    - ios
+  script:
+    - export LANG=en_US.UTF-8
+    - export DEVELOPER_DIR=/Applications/Xcode-16.0.0.app/Contents/Developer
+    - cd ./ios
+    - ./scripts/setup.sh
+    - bundle exec fvm flutter build ios --no-codesign --flavor prod --dart-define-from-file=../dart_defines/prod.json
+    - bundle exec fastlane build_ios_production
+    - cd ../
+    - mv ./ios/output/*.ipa .
+  when: manual
+  artifacts:
+    name: "flutter_foundations_ios_prod_${CI_COMMIT_REF_SLUG}_${CI_COMMIT_SHA:0:8}"
+    paths:
+      - ./*.ipa
+    expire_in: 2 weeks
+
+clean:
+  stage: clean
+  tags:
+    - android
+    - ios
+  script:
+    - fvm flutter clean
+  when: on_failure

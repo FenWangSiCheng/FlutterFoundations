@@ -132,6 +132,15 @@ The project uses `flutter_bloc` for state management following the BLoC pattern:
 - Use `BlocProvider` to provide BLoCs to widget trees
 - Use `BlocBuilder` to rebuild UI based on state changes
 
+### Routing
+The project uses `go_router` for declarative routing:
+- `core/router/app_router.dart` - Main router configuration registered with DI as `@lazySingleton`
+- `core/router/router_constants.dart` - Centralized route path constants
+- Router is injected into the app widget and provides navigation throughout the app
+- Use `context.go()` for navigation and `context.push()` for stacked navigation
+- Error handling with custom error page that redirects to home
+- Access router via dependency injection: `getIt<AppRouter>().router`
+
 ### Testing Strategy
 Comprehensive testing is expected across all layers:
 

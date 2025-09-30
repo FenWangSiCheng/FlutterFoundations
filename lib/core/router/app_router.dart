@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
-import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/user/presentation/pages/user_page.dart';
 import '../widgets/main_tab_page.dart';
 import 'router_constants.dart';

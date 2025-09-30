@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../main.dart';
+import '../config/app_config.dart';
 import '../injection/injection.dart';
 import '../router/app_router.dart';
 
@@ -9,6 +9,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appConfig = getIt<AppConfig>();
     final appRouter = getIt<AppRouter>();
 
     return MaterialApp.router(
@@ -21,6 +22,7 @@ class App extends StatelessWidget {
         return _flavorBanner(
           child: child ?? const SizedBox(),
           show: kDebugMode,
+          appName: appConfig.appName,
         );
       },
     );
@@ -28,12 +30,13 @@ class App extends StatelessWidget {
 
   Widget _flavorBanner({
     required Widget child,
+    required String appName,
     bool show = true,
   }) =>
       show
           ? Banner(
               location: BannerLocation.topStart,
-              message: appConfig.appName,
+              message: appName,
               color: Colors.green.withValues(alpha: 0.6),
               textStyle: const TextStyle(
                   fontWeight: FontWeight.w700,

@@ -4,15 +4,13 @@ import 'core/widgets/app.dart';
 import 'core/config/app_config.dart';
 import 'core/injection/injection.dart';
 
-late final AppConfig appConfig;
-
 FutureOr<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  appConfig = AppConfig.fromEnvironment();
+  final appConfig = AppConfig.fromEnvironment();
 
-  // Initialize dependency injection
-  await configureDependencies();
+  // Initialize dependency injection with AppConfig
+  await configureDependencies(appConfig);
 
   runApp(const App());
 }

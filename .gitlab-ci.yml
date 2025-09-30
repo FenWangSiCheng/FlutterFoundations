@@ -6,6 +6,7 @@ before_script:
   - fvm flutter --version
   - fvm flutter clean
   - fvm flutter pub get
+  - bash tool/image_codegen.sh
   - fvm flutter packages pub run build_runner build --delete-conflicting-outputs
 
 

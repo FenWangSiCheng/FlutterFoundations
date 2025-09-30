@@ -40,6 +40,9 @@ migrate_working_dir/
 *.mocks.dart
 *.config.dart
 
+# Auto-generated resources
+lib/core/resources/images.dart
+
 # Symbolication related
 app.*.symbols
 

@@ -9,7 +9,6 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:flutter_foundations/core/config/app_config.dart';
 import 'package:flutter_foundations/core/network/dio_client.dart';
 import 'package:flutter_foundations/core/network/interceptors/auth_interceptor.dart';
-import 'package:flutter_foundations/main.dart' as app_main;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -19,17 +18,13 @@ void main() {
   late TestAppConfig config;
   late DioClient client;
 
-  setUpAll(() {
+  setUp(() {
     config = TestAppConfig(
       baseUrl: 'https://initial.example.com',
       mockApiDataSource: false,
       isProduction: false,
     );
-    app_main.appConfig = config;
-  });
-
-  setUp(() {
-    client = DioClient();
+    client = DioClient(config);
     config.update(
       baseUrl: 'https://initial.example.com',
       mockApiDataSource: false,
@@ -244,22 +239,20 @@ void main() {
   });
 
   test('multiple DioClient instances can be created independently', () async {
-    config.update(
+    final firstConfig = TestAppConfig(
       baseUrl: 'https://first.example.com',
       mockApiDataSource: false,
       isProduction: false,
     );
-
-    final firstClient = DioClient();
+    final firstClient = DioClient(firstConfig);
     await firstClient.initialize();
 
-    config.update(
+    final secondConfig = TestAppConfig(
       baseUrl: 'https://second.example.com',
       mockApiDataSource: false,
       isProduction: false,
     );
-
-    final secondClient = DioClient();
+    final secondClient = DioClient(secondConfig);
     await secondClient.initialize();
 
     expect(firstClient.dio.options.baseUrl, equals('https://first.example.com'));
@@ -312,13 +305,12 @@ void main() {
   });
 
   test('initialize can be called on a fresh DioClient instance', () async {
-    config.update(
+    final freshConfig = TestAppConfig(
       baseUrl: 'https://fresh.example.com',
       mockApiDataSource: false,
       isProduction: true,
     );
-
-    final freshClient = DioClient();
+    final freshClient = DioClient(freshConfig);
 
     // Should not throw any exceptions
     await freshClient.initialize();

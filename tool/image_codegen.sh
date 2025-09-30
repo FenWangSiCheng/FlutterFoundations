@@ -11,8 +11,8 @@ WRITE_TO="lib/core/resources/images.dart"
 
 for files in "./$IMAGE_PATH"/*."$SUFFIX_PNG"
 do
-  fileName=$(eval "basename $files *.$SUFFIX_PNG")
-  withoutSuffix=$(eval "basename $fileName .$SUFFIX_PNG")
+  fileName=$(basename "$files")
+  withoutSuffix=$(basename "$files" ".$SUFFIX_PNG")
   # Convert snake_case to lowerCamelCase
   camelCase=$(echo "$withoutSuffix" | perl -pe 's/_([a-z])/\U$1/g')
   echo "  static const $camelCase = '$IMAGE_PATH/$fileName';" >> "./$WRITE_TO"

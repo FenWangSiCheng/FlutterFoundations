@@ -7,7 +7,7 @@ enum Flavor {
 class AppConfig {
   final Flavor currentFlavor;
 
-  AppConfig({
+  const AppConfig({
     required this.currentFlavor,
   });
 

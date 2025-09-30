@@ -5,12 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:native_flutter_proxy/native_flutter_proxy.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
-import '../../main.dart';
+import '../config/app_config.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'mock/mock_setup.dart';
 
 class DioClient {
+  final AppConfig _appConfig;
   late final Dio _dio;
+
+  DioClient(this._appConfig);
 
   /// Get the configured Dio instance
   Dio get dio => _dio;
@@ -23,7 +26,7 @@ class DioClient {
     _dio = Dio(_getBaseOptions());
 
     // Configure adapter based on mock setting
-    if (appConfig.mockApiDataSource) {
+    if (_appConfig.mockApiDataSource) {
       await _setupMockAdapter();
     } else {
       _dio.initHttpClient([
@@ -38,7 +41,7 @@ class DioClient {
   /// Get base options for Dio
   BaseOptions _getBaseOptions() {
     return BaseOptions(
-      baseUrl: appConfig.baseUrl,
+      baseUrl: _appConfig.baseUrl,
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
     );
@@ -83,7 +86,7 @@ class DioClient {
   /// Create staging proxy configuration action
   _InitAction _stagingProxy(String proxy) {
     return (HttpClient client) {
-      if (!appConfig.isProduction && proxy.isNotEmpty) {
+      if (!_appConfig.isProduction && proxy.isNotEmpty) {
         client.findProxy = (uri) => proxy;
         client.badCertificateCallback =
             (X509Certificate cert, String host, int port) => true;

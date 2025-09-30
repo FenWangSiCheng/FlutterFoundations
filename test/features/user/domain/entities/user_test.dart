@@ -15,7 +15,7 @@ void main() {
       expect(tUser.email, equals('john@example.com'));
     });
 
-    test('should support equality comparison', () {
+    test('should support equality comparison with Equatable', () {
       const user1 = User(
         id: '1',
         name: 'John Doe',
@@ -27,9 +27,8 @@ void main() {
         email: 'john@example.com',
       );
 
-      expect(user1.id, equals(user2.id));
-      expect(user1.name, equals(user2.name));
-      expect(user1.email, equals(user2.email));
+      expect(user1, equals(user2));
+      expect(user1.hashCode, equals(user2.hashCode));
     });
 
     test('should differentiate between different users', () {
@@ -44,9 +43,8 @@ void main() {
         email: 'jane@example.com',
       );
 
-      expect(user1.id, isNot(equals(user2.id)));
-      expect(user1.name, isNot(equals(user2.name)));
-      expect(user1.email, isNot(equals(user2.email)));
+      expect(user1, isNot(equals(user2)));
+      expect(user1.hashCode, isNot(equals(user2.hashCode)));
     });
 
     test('should be a const constructor', () {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -17,14 +16,15 @@ import 'user_page_test.mocks.dart';
 void main() {
   late MockUserBloc mockUserBloc;
 
-  setUp(() {
+  setUp(() async {
+    await getIt.reset();
     mockUserBloc = MockUserBloc();
     // Mock the getIt call
     getIt.registerFactory<UserBloc>(() => mockUserBloc);
   });
 
-  tearDown(() {
-    getIt.reset();
+  tearDown(() async {
+    await getIt.reset();
   });
 
   Widget makeTestableWidget(Widget child) {

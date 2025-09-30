@@ -4,6 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_foundations/features/user/data/datasource/remote_datasource.dart';
 import 'package:flutter_foundations/features/user/data/models/user_model.dart';
+import 'package:flutter_foundations/core/network/error/exception.dart';
 
 import 'remote_datasource_test.mocks.dart';
 
@@ -61,22 +62,7 @@ void main() {
       expect(result, equals(tUserModel));
     });
 
-    test('should throw an Exception when response is unsuccessful', () async {
-      when(mockDio.get(any)).thenAnswer(
-        (_) async => Response(
-          data: {'error': 'User not found'},
-          statusCode: 404,
-          requestOptions: RequestOptions(path: '/users/$tUserId'),
-        ),
-      );
-
-      expect(
-        () => dataSource.getUser(tUserId),
-        throwsA(isA<Exception>()),
-      );
-    });
-
-    test('should throw DioException when network error occurs', () async {
+    test('should throw ApiException when DioException occurs', () async {
       when(mockDio.get(any)).thenThrow(
         DioException(
           requestOptions: RequestOptions(path: '/users/$tUserId'),
@@ -86,8 +72,25 @@ void main() {
 
       expect(
         () => dataSource.getUser(tUserId),
-        throwsA(isA<DioException>()),
+        throwsA(isA<ApiException>()),
       );
+    });
+
+    test('should throw ApiException with proper message on network error', () async {
+      when(mockDio.get(any)).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(path: '/users/$tUserId'),
+          type: DioExceptionType.receiveTimeout,
+        ),
+      );
+
+      try {
+        await dataSource.getUser(tUserId);
+        fail('Should have thrown ApiException');
+      } catch (e) {
+        expect(e, isA<ApiException>());
+        expect((e as ApiException).message, equals('Receive timeout'));
+      }
     });
   });
 }

@@ -13,10 +13,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<LoadUserEvent>(_onLoadUser);
   }
 
-  Future<void> _onLoadUser(
-    LoadUserEvent event,
-    Emitter<UserState> emit,
-  ) async {
+  Future<void> _onLoadUser(LoadUserEvent event, Emitter<UserState> emit) async {
     emit(UserLoading());
     try {
       final user = await getUserUseCase(event.userId);

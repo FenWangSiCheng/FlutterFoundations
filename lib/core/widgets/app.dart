@@ -14,9 +14,7 @@ class App extends StatelessWidget {
 
     return MaterialApp.router(
       title: appConfig.appName,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       routerConfig: appRouter.router,
       builder: (context, child) {
         return _flavorBanner(
@@ -32,20 +30,18 @@ class App extends StatelessWidget {
     required Widget child,
     required String appName,
     bool show = true,
-  }) =>
-      show
-          ? Banner(
-              location: BannerLocation.topStart,
-              message: appName,
-              color: Colors.green.withValues(alpha: 0.6),
-              textStyle: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 12.0,
-                  letterSpacing: 1.0),
-              textDirection: TextDirection.ltr,
-              child: child,
-            )
-          : Container(
-              child: child,
-            );
+  }) => show
+      ? Banner(
+          location: BannerLocation.topStart,
+          message: appName,
+          color: Colors.green.withValues(alpha: 0.6),
+          textStyle: const TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 12.0,
+            letterSpacing: 1.0,
+          ),
+          textDirection: TextDirection.ltr,
+          child: child,
+        )
+      : Container(child: child);
 }

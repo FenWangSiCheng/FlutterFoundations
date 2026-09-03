@@ -10,7 +10,8 @@ import 'package:flutter_foundations/core/network/mock/mock_setup.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  const mockUsersJson = '[{"id":"1","name":"Alice"},{"id":"2","name":"Bob"},{"id":"3","name":"Eve"}]';
+  const mockUsersJson =
+      '[{"id":"1","name":"Alice"},{"id":"2","name":"Bob"},{"id":"3","name":"Eve"}]';
 
   late Dio dio;
   late DioAdapter adapter;
@@ -53,16 +54,16 @@ void main() {
 void _setMockAssetBundle(Map<String, String> assets) {
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMessageHandler('flutter/assets', (message) async {
-    final keyBytes = message!.buffer.asUint8List();
-    final key = utf8.decode(keyBytes);
-    final asset = assets[key];
-    if (asset == null) {
-      return null;
-    }
-    final encoded = utf8.encode(asset);
-    final bytes = ByteData.view(Uint8List.fromList(encoded).buffer);
-    return bytes;
-  });
+        final keyBytes = message!.buffer.asUint8List();
+        final key = utf8.decode(keyBytes);
+        final asset = assets[key];
+        if (asset == null) {
+          return null;
+        }
+        final encoded = utf8.encode(asset);
+        final bytes = ByteData.view(Uint8List.fromList(encoded).buffer);
+        return bytes;
+      });
 }
 
 void _clearMockAssetBundle() {

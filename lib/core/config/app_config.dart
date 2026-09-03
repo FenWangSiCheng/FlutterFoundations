@@ -1,23 +1,15 @@
-enum Flavor {
-  dev,
-  stg,
-  prod,
-}
+enum Flavor { dev, stg, prod }
 
 class AppConfig {
   final Flavor currentFlavor;
 
-  const AppConfig({
-    required this.currentFlavor,
-  });
+  const AppConfig({required this.currentFlavor});
 
   factory AppConfig.fromEnvironment() {
     const flavorString = String.fromEnvironment('flavor', defaultValue: 'prod');
     final flavor = _parseFlavorFromString(flavorString);
 
-    return AppConfig(
-      currentFlavor: flavor,
-    );
+    return AppConfig(currentFlavor: flavor);
   }
 
   String get appName {
@@ -47,7 +39,7 @@ class AppConfig {
       case Flavor.dev:
         return true;
       case Flavor.stg:
-        return false; 
+        return false;
       case Flavor.prod:
         return false;
     }
@@ -86,6 +78,17 @@ class AppConfig {
       case Flavor.prod:
         return true;
     }
+  }
+
+  Map<String, Object?> get harnessContext {
+    return {
+      'flavor': flavorName,
+      'app_name': appName,
+      'base_url': baseUrl,
+      'mock_api_data_source': mockApiDataSource,
+      'is_need_proxy': isNeedProxy,
+      'is_production': isProduction,
+    };
   }
 }
 

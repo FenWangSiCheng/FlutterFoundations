@@ -28,14 +28,13 @@ void main() {
   });
 
   Widget makeTestableWidget(Widget child) {
-    return MaterialApp(
-      home: child,
-    );
+    return MaterialApp(home: child);
   }
 
   group('UserPage', () {
-    testWidgets('should display loading indicator when state is UserLoading',
-        (WidgetTester tester) async {
+    testWidgets('should display loading indicator when state is UserLoading', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       when(mockUserBloc.state).thenReturn(UserLoading());
       when(mockUserBloc.stream).thenAnswer((_) => Stream.value(UserLoading()));
@@ -49,8 +48,9 @@ void main() {
       expect(find.text('User Info'), findsOneWidget);
     });
 
-    testWidgets('should display user data when state is UserLoaded',
-        (WidgetTester tester) async {
+    testWidgets('should display user data when state is UserLoaded', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const testUser = User(
         id: '1',
@@ -76,8 +76,9 @@ void main() {
       expect(find.text('User 3'), findsOneWidget);
     });
 
-    testWidgets('should display error message when state is UserError',
-        (WidgetTester tester) async {
+    testWidgets('should display error message when state is UserError', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const errorState = UserError('Failed to load user');
 
@@ -94,8 +95,9 @@ void main() {
       expect(find.text('Retry'), findsOneWidget);
     });
 
-    testWidgets('should display default message when state is UserInitial',
-        (WidgetTester tester) async {
+    testWidgets('should display default message when state is UserInitial', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       when(mockUserBloc.state).thenReturn(UserInitial());
       when(mockUserBloc.stream).thenAnswer((_) => Stream.value(UserInitial()));
@@ -108,8 +110,9 @@ void main() {
       expect(find.text('Press a button to load user'), findsOneWidget);
     });
 
-    testWidgets('should trigger LoadUserEvent when User 1 button is pressed',
-        (WidgetTester tester) async {
+    testWidgets('should trigger LoadUserEvent when User 1 button is pressed', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const testUser = User(
         id: '1',
@@ -137,8 +140,9 @@ void main() {
       verify(mockUserBloc.add(const LoadUserEvent('1'))).called(1);
     });
 
-    testWidgets('should trigger LoadUserEvent when User 2 button is pressed',
-        (WidgetTester tester) async {
+    testWidgets('should trigger LoadUserEvent when User 2 button is pressed', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const testUser = User(
         id: '1',
@@ -161,8 +165,9 @@ void main() {
       verify(mockUserBloc.add(const LoadUserEvent('2'))).called(1);
     });
 
-    testWidgets('should trigger LoadUserEvent when User 3 button is pressed',
-        (WidgetTester tester) async {
+    testWidgets('should trigger LoadUserEvent when User 3 button is pressed', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const testUser = User(
         id: '1',
@@ -185,8 +190,9 @@ void main() {
       verify(mockUserBloc.add(const LoadUserEvent('3'))).called(1);
     });
 
-    testWidgets('should trigger LoadUserEvent when Retry button is pressed',
-        (WidgetTester tester) async {
+    testWidgets('should trigger LoadUserEvent when Retry button is pressed', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const errorState = UserError('Failed to load user');
 
@@ -209,8 +215,9 @@ void main() {
       verify(mockUserBloc.add(const LoadUserEvent('1'))).called(1);
     });
 
-    testWidgets('should have AppBar with correct title and color',
-        (WidgetTester tester) async {
+    testWidgets('should have AppBar with correct title and color', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       when(mockUserBloc.state).thenReturn(UserInitial());
       when(mockUserBloc.stream).thenAnswer((_) => Stream.value(UserInitial()));
@@ -226,8 +233,9 @@ void main() {
       expect(appBar.backgroundColor, equals(Colors.blue));
     });
 
-    testWidgets('should display image or fallback icon in loaded state',
-        (WidgetTester tester) async {
+    testWidgets('should display image or fallback icon in loaded state', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const testUser = User(
         id: '1',
@@ -247,8 +255,9 @@ void main() {
       expect(find.byType(Image), findsOneWidget);
     });
 
-    testWidgets('should render Card widget for user info in loaded state',
-        (WidgetTester tester) async {
+    testWidgets('should render Card widget for user info in loaded state', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const testUser = User(
         id: '1',
@@ -268,8 +277,9 @@ void main() {
       expect(find.byType(Card), findsOneWidget);
     });
 
-    testWidgets('should display all three user buttons in loaded state',
-        (WidgetTester tester) async {
+    testWidgets('should display all three user buttons in loaded state', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const testUser = User(
         id: '1',
@@ -289,8 +299,9 @@ void main() {
       expect(find.byType(ElevatedButton), findsNWidgets(3));
     });
 
-    testWidgets('should display error icon in error state',
-        (WidgetTester tester) async {
+    testWidgets('should display error icon in error state', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const errorState = UserError('Network error');
 

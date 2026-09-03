@@ -21,9 +21,7 @@ class UserPage extends StatelessWidget {
         body: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
             if (state is UserLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const Center(child: CircularProgressIndicator());
             } else if (state is UserLoaded) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -105,19 +103,25 @@ class UserPage extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            context.read<UserBloc>().add(const LoadUserEvent('1'));
+                            context.read<UserBloc>().add(
+                              const LoadUserEvent('1'),
+                            );
                           },
                           child: const Text('User 1'),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            context.read<UserBloc>().add(const LoadUserEvent('2'));
+                            context.read<UserBloc>().add(
+                              const LoadUserEvent('2'),
+                            );
                           },
                           child: const Text('User 2'),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            context.read<UserBloc>().add(const LoadUserEvent('3'));
+                            context.read<UserBloc>().add(
+                              const LoadUserEvent('3'),
+                            );
                           },
                           child: const Text('User 3'),
                         ),
@@ -139,10 +143,7 @@ class UserPage extends StatelessWidget {
                     const SizedBox(height: 16),
                     Text(
                       'Error: ${state.message}',
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                      ),
+                      style: const TextStyle(color: Colors.red, fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16),
@@ -156,9 +157,7 @@ class UserPage extends StatelessWidget {
                 ),
               );
             }
-            return const Center(
-              child: Text('Press a button to load user'),
-            );
+            return const Center(child: Text('Press a button to load user'));
           },
         ),
       ),

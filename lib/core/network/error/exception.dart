@@ -4,11 +4,7 @@ class ApiException implements Exception {
   final int? errorCode;
   final Map<String, dynamic>? details;
 
-  ApiException(
-    this.message, {
-    this.errorCode,
-    this.details,
-  });
+  ApiException(this.message, {this.errorCode, this.details});
 
   @override
   String toString() {

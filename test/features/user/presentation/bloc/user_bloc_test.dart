@@ -21,11 +21,7 @@ void main() {
 
   group('UserBloc', () {
     const tUserId = '1';
-    const tUser = User(
-      id: '1',
-      name: 'John Doe',
-      email: 'john@example.com',
-    );
+    const tUser = User(id: '1', name: 'John Doe', email: 'john@example.com');
 
     test('initial state should be UserInitial', () async {
       final bloc = UserBloc(mockGetUserUseCase);
@@ -42,10 +38,7 @@ void main() {
         return UserBloc(mockGetUserUseCase);
       },
       act: (bloc) => bloc.add(const LoadUserEvent(tUserId)),
-      expect: () => [
-        UserLoading(),
-        const UserLoaded(tUser),
-      ],
+      expect: () => [UserLoading(), const UserLoaded(tUser)],
       verify: (_) {
         verify(mockGetUserUseCase.call(tUserId)).called(1);
       },
@@ -54,7 +47,9 @@ void main() {
     blocTest<UserBloc, UserState>(
       'should emit [UserLoading, UserError] when LoadUserEvent fails',
       build: () {
-        when(mockGetUserUseCase.call(any)).thenThrow(Exception('Failed to load user'));
+        when(
+          mockGetUserUseCase.call(any),
+        ).thenThrow(Exception('Failed to load user'));
         return UserBloc(mockGetUserUseCase);
       },
       act: (bloc) => bloc.add(const LoadUserEvent(tUserId)),
@@ -99,16 +94,22 @@ void main() {
       },
       expect: () => [
         UserLoading(),
-        const UserLoaded(User(id: '1', name: 'John', email: 'john@example.com')),
+        const UserLoaded(
+          User(id: '1', name: 'John', email: 'john@example.com'),
+        ),
         UserLoading(),
-        const UserLoaded(User(id: '2', name: 'Jane', email: 'jane@example.com')),
+        const UserLoaded(
+          User(id: '2', name: 'Jane', email: 'jane@example.com'),
+        ),
       ],
     );
 
     blocTest<UserBloc, UserState>(
       'should emit UserError with error message on generic exception',
       build: () {
-        when(mockGetUserUseCase.call(any)).thenThrow(Exception('Network error'));
+        when(
+          mockGetUserUseCase.call(any),
+        ).thenThrow(Exception('Network error'));
         return UserBloc(mockGetUserUseCase);
       },
       act: (bloc) => bloc.add(const LoadUserEvent(tUserId)),
@@ -121,14 +122,13 @@ void main() {
     blocTest<UserBloc, UserState>(
       'should emit UserError with ApiException message',
       build: () {
-        when(mockGetUserUseCase.call(any)).thenThrow(ApiException('Connection timeout'));
+        when(
+          mockGetUserUseCase.call(any),
+        ).thenThrow(ApiException('Connection timeout'));
         return UserBloc(mockGetUserUseCase);
       },
       act: (bloc) => bloc.add(const LoadUserEvent(tUserId)),
-      expect: () => [
-        UserLoading(),
-        const UserError('Connection timeout'),
-      ],
+      expect: () => [UserLoading(), const UserError('Connection timeout')],
     );
   });
 }

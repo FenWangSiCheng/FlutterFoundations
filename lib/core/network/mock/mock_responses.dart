@@ -4,7 +4,9 @@ import 'package:flutter/services.dart';
 class MockResponses {
   static Future<List<Map<String, dynamic>>> loadUserList() async {
     try {
-      final String response = await rootBundle.loadString('assets/mock/users.json');
+      final String response = await rootBundle.loadString(
+        'assets/mock/users.json',
+      );
       final List<dynamic> jsonList = jsonDecode(response);
       return jsonList.cast<Map<String, dynamic>>();
     } catch (e) {

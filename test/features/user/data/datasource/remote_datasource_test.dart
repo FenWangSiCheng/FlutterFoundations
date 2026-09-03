@@ -29,11 +29,7 @@ void main() {
     test('should perform a GET request to /users/:userId', () async {
       when(mockDio.get(any)).thenAnswer(
         (_) async => Response(
-          data: {
-            'id': '1',
-            'name': 'John Doe',
-            'email': 'john@example.com',
-          },
+          data: {'id': '1', 'name': 'John Doe', 'email': 'john@example.com'},
           statusCode: 200,
           requestOptions: RequestOptions(path: '/users/$tUserId'),
         ),
@@ -47,11 +43,7 @@ void main() {
     test('should return UserModel when response is successful (200)', () async {
       when(mockDio.get(any)).thenAnswer(
         (_) async => Response(
-          data: {
-            'id': '1',
-            'name': 'John Doe',
-            'email': 'john@example.com',
-          },
+          data: {'id': '1', 'name': 'John Doe', 'email': 'john@example.com'},
           statusCode: 200,
           requestOptions: RequestOptions(path: '/users/$tUserId'),
         ),
@@ -70,27 +62,27 @@ void main() {
         ),
       );
 
-      expect(
-        () => dataSource.getUser(tUserId),
-        throwsA(isA<ApiException>()),
-      );
+      expect(() => dataSource.getUser(tUserId), throwsA(isA<ApiException>()));
     });
 
-    test('should throw ApiException with proper message on network error', () async {
-      when(mockDio.get(any)).thenThrow(
-        DioException(
-          requestOptions: RequestOptions(path: '/users/$tUserId'),
-          type: DioExceptionType.receiveTimeout,
-        ),
-      );
+    test(
+      'should throw ApiException with proper message on network error',
+      () async {
+        when(mockDio.get(any)).thenThrow(
+          DioException(
+            requestOptions: RequestOptions(path: '/users/$tUserId'),
+            type: DioExceptionType.receiveTimeout,
+          ),
+        );
 
-      try {
-        await dataSource.getUser(tUserId);
-        fail('Should have thrown ApiException');
-      } catch (e) {
-        expect(e, isA<ApiException>());
-        expect((e as ApiException).message, equals('Receive timeout'));
-      }
-    });
+        try {
+          await dataSource.getUser(tUserId);
+          fail('Should have thrown ApiException');
+        } catch (e) {
+          expect(e, isA<ApiException>());
+          expect((e as ApiException).message, equals('Receive timeout'));
+        }
+      },
+    );
   });
 }

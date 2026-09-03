@@ -65,8 +65,10 @@ void main() {
     });
 
     test('router should have correct initial location', () {
-      expect(appRouter.router.routeInformationProvider.value.uri.path,
-          RouterPaths.home);
+      expect(
+        appRouter.router.routeInformationProvider.value.uri.path,
+        RouterPaths.home,
+      );
     });
 
     group('Multiple instances', () {
@@ -81,9 +83,7 @@ void main() {
     group('Navigation', () {
       testWidgets('should navigate to home page', (tester) async {
         await tester.pumpWidget(
-          MaterialApp.router(
-            routerConfig: appRouter.router,
-          ),
+          MaterialApp.router(routerConfig: appRouter.router),
         );
 
         expect(find.byType(MaterialApp), findsOneWidget);
@@ -96,24 +96,22 @@ void main() {
 
       testWidgets('should navigate to user page', (tester) async {
         await tester.pumpWidget(
-          MaterialApp.router(
-            routerConfig: appRouter.router,
-          ),
+          MaterialApp.router(routerConfig: appRouter.router),
         );
 
         appRouter.router.go(RouterPaths.user);
         await tester.pumpAndSettle();
 
-        expect(appRouter.router.routeInformationProvider.value.uri.path,
-            RouterPaths.user);
+        expect(
+          appRouter.router.routeInformationProvider.value.uri.path,
+          RouterPaths.user,
+        );
         expect(find.text('User Info'), findsOneWidget);
       });
 
       testWidgets('should show error page for invalid route', (tester) async {
         await tester.pumpWidget(
-          MaterialApp.router(
-            routerConfig: appRouter.router,
-          ),
+          MaterialApp.router(routerConfig: appRouter.router),
         );
 
         appRouter.router.go('/invalid-route');
@@ -125,12 +123,11 @@ void main() {
         expect(find.text('Go Home'), findsOneWidget);
       });
 
-      testWidgets('should navigate back to home from error page',
-          (tester) async {
+      testWidgets('should navigate back to home from error page', (
+        tester,
+      ) async {
         await tester.pumpWidget(
-          MaterialApp.router(
-            routerConfig: appRouter.router,
-          ),
+          MaterialApp.router(routerConfig: appRouter.router),
         );
 
         appRouter.router.go('/invalid-route');
@@ -141,8 +138,10 @@ void main() {
         await tester.tap(find.text('Go Home'));
         await tester.pumpAndSettle();
 
-        expect(appRouter.router.routeInformationProvider.value.uri.path,
-            RouterPaths.home);
+        expect(
+          appRouter.router.routeInformationProvider.value.uri.path,
+          RouterPaths.home,
+        );
       });
     });
   });

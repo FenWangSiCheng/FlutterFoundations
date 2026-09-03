@@ -10,11 +10,7 @@ void main() {
       email: 'john@example.com',
     );
 
-    const tJson = {
-      'id': '1',
-      'name': 'John Doe',
-      'email': 'john@example.com',
-    };
+    const tJson = {'id': '1', 'name': 'John Doe', 'email': 'john@example.com'};
 
     test('should be a subclass of User entity via toEntity', () {
       final entity = tUserModel.toEntity();

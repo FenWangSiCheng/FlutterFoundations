@@ -39,74 +39,88 @@ void main() {
     _clearMockProxyResponse(proxyChannel);
   });
 
-  test('initialize configures mock adapter when mock data source is enabled', () async {
-    const mockUsersJson = '[{"id":"1","name":"Alice"},{"id":"2","name":"Bob"}]';
+  test(
+    'initialize configures mock adapter when mock data source is enabled',
+    () async {
+      const mockUsersJson =
+          '[{"id":"1","name":"Alice"},{"id":"2","name":"Bob"}]';
 
-    config.update(
-      baseUrl: 'https://mock.example.com',
-      mockApiDataSource: true,
-      isProduction: false,
-    );
+      config.update(
+        baseUrl: 'https://mock.example.com',
+        mockApiDataSource: true,
+        isProduction: false,
+      );
 
-    _setMockAssetBundle({'assets/mock/users.json': mockUsersJson});
+      _setMockAssetBundle({'assets/mock/users.json': mockUsersJson});
 
-    await client.initialize();
+      await client.initialize();
 
-    final dio = client.dio;
+      final dio = client.dio;
 
-    expect(dio.options.baseUrl, equals('https://mock.example.com'));
-    expect(dio.httpClientAdapter, isA<DioAdapter>());
-    expect(dio.interceptors.any((interceptor) => interceptor is AuthInterceptor), isTrue);
+      expect(dio.options.baseUrl, equals('https://mock.example.com'));
+      expect(dio.httpClientAdapter, isA<DioAdapter>());
+      expect(
+        dio.interceptors.any((interceptor) => interceptor is AuthInterceptor),
+        isTrue,
+      );
 
-    final response = await dio.get('/users');
-    expect(response.statusCode, equals(200));
-    expect(response.data, isA<List<dynamic>>());
-    expect(response.data.length, equals(2));
-  });
+      final response = await dio.get('/users');
+      expect(response.statusCode, equals(200));
+      expect(response.data, isA<List<dynamic>>());
+      expect(response.data.length, equals(2));
+    },
+  );
 
-  test('initialize configures IOHttpClientAdapter when mock data source is disabled', () async {
-    config.update(
-      baseUrl: 'https://api.example.com',
-      mockApiDataSource: false,
-      isProduction: false,
-    );
+  test(
+    'initialize configures IOHttpClientAdapter when mock data source is disabled',
+    () async {
+      config.update(
+        baseUrl: 'https://api.example.com',
+        mockApiDataSource: false,
+        isProduction: false,
+      );
 
-    _setMockProxyResponse(
-      proxyChannel,
-      host: '127.0.0.1',
-      port: 9090,
-    );
+      _setMockProxyResponse(proxyChannel, host: '127.0.0.1', port: 9090);
 
-    await client.initialize();
+      await client.initialize();
 
-    final dio = client.dio;
-    expect(dio.options.baseUrl, equals('https://api.example.com'));
-    expect(dio.httpClientAdapter, isA<IOHttpClientAdapter>());
-    expect(dio.interceptors.any((interceptor) => interceptor is AuthInterceptor), isTrue);
-  });
+      final dio = client.dio;
+      expect(dio.options.baseUrl, equals('https://api.example.com'));
+      expect(dio.httpClientAdapter, isA<IOHttpClientAdapter>());
+      expect(
+        dio.interceptors.any((interceptor) => interceptor is AuthInterceptor),
+        isTrue,
+      );
+    },
+  );
 
-  test('initialize does not configure proxy when proxy retrieval fails', () async {
-    config.update(
-      baseUrl: 'https://api.example.com',
-      mockApiDataSource: false,
-      isProduction: false,
-    );
+  test(
+    'initialize does not configure proxy when proxy retrieval fails',
+    () async {
+      config.update(
+        baseUrl: 'https://api.example.com',
+        mockApiDataSource: false,
+        isProduction: false,
+      );
 
-    // Don't set up mock proxy response, causing getProxySetting to return null
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(proxyChannel, (MethodCall methodCall) async {
-      if (methodCall.method == 'getProxySetting') {
-        throw Exception('Proxy retrieval failed');
-      }
-      return null;
-    });
+      // Don't set up mock proxy response, causing getProxySetting to return null
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(proxyChannel, (
+            MethodCall methodCall,
+          ) async {
+            if (methodCall.method == 'getProxySetting') {
+              throw Exception('Proxy retrieval failed');
+            }
+            return null;
+          });
 
-    await client.initialize();
+      await client.initialize();
 
-    final dio = client.dio;
-    expect(dio.options.baseUrl, equals('https://api.example.com'));
-    expect(dio.httpClientAdapter, isA<IOHttpClientAdapter>());
-  });
+      final dio = client.dio;
+      expect(dio.options.baseUrl, equals('https://api.example.com'));
+      expect(dio.httpClientAdapter, isA<IOHttpClientAdapter>());
+    },
+  );
 
   test('initialize does not configure proxy when proxy is disabled', () async {
     config.update(
@@ -118,11 +132,11 @@ void main() {
     // Return proxy with enabled = false
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(proxyChannel, (MethodCall methodCall) async {
-      if (methodCall.method == 'getProxySetting') {
-        return {'enabled': false, 'host': null, 'port': null};
-      }
-      return null;
-    });
+          if (methodCall.method == 'getProxySetting') {
+            return {'enabled': false, 'host': null, 'port': null};
+          }
+          return null;
+        });
 
     await client.initialize();
 
@@ -138,11 +152,7 @@ void main() {
       isProduction: true,
     );
 
-    _setMockProxyResponse(
-      proxyChannel,
-      host: '127.0.0.1',
-      port: 9090,
-    );
+    _setMockProxyResponse(proxyChannel, host: '127.0.0.1', port: 9090);
 
     await client.initialize();
 
@@ -161,11 +171,11 @@ void main() {
     // Return proxy with host/port as null
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(proxyChannel, (MethodCall methodCall) async {
-      if (methodCall.method == 'getProxySetting') {
-        return {'enabled': true, 'host': null, 'port': null};
-      }
-      return null;
-    });
+          if (methodCall.method == 'getProxySetting') {
+            return {'enabled': true, 'host': null, 'port': null};
+          }
+          return null;
+        });
 
     await client.initialize();
 
@@ -174,31 +184,30 @@ void main() {
     expect(dio.httpClientAdapter, isA<IOHttpClientAdapter>());
   });
 
-  test('creates HttpClient in non-production with valid proxy without errors', () async {
-    config.update(
-      baseUrl: 'https://api.example.com',
-      mockApiDataSource: false,
-      isProduction: false,
-    );
+  test(
+    'creates HttpClient in non-production with valid proxy without errors',
+    () async {
+      config.update(
+        baseUrl: 'https://api.example.com',
+        mockApiDataSource: false,
+        isProduction: false,
+      );
 
-    _setMockProxyResponse(
-      proxyChannel,
-      host: '127.0.0.1',
-      port: 8888,
-    );
+      _setMockProxyResponse(proxyChannel, host: '127.0.0.1', port: 8888);
 
-    await client.initialize();
+      await client.initialize();
 
-    // Verify that IOHttpClientAdapter is configured with custom createHttpClient
-    final adapter = client.dio.httpClientAdapter as IOHttpClientAdapter;
-    expect(adapter.createHttpClient, isNotNull);
+      // Verify that IOHttpClientAdapter is configured with custom createHttpClient
+      final adapter = client.dio.httpClientAdapter as IOHttpClientAdapter;
+      expect(adapter.createHttpClient, isNotNull);
 
-    // Trigger actual HttpClient creation to verify it doesn't throw
-    final httpClient = adapter.createHttpClient!();
-    expect(httpClient, isNotNull);
+      // Trigger actual HttpClient creation to verify it doesn't throw
+      final httpClient = adapter.createHttpClient!();
+      expect(httpClient, isNotNull);
 
-    httpClient.close();
-  });
+      httpClient.close();
+    },
+  );
 
   test('debug mode includes LogInterceptor in interceptors list', () async {
     config.update(
@@ -213,8 +222,12 @@ void main() {
 
     // In debug mode (kDebugMode), LogInterceptor should be present
     // Note: This test assumes we're running in debug mode
-    final hasLogInterceptor = dio.interceptors.any((interceptor) => interceptor is LogInterceptor);
-    final hasAuthInterceptor = dio.interceptors.any((interceptor) => interceptor is AuthInterceptor);
+    final hasLogInterceptor = dio.interceptors.any(
+      (interceptor) => interceptor is LogInterceptor,
+    );
+    final hasAuthInterceptor = dio.interceptors.any(
+      (interceptor) => interceptor is AuthInterceptor,
+    );
 
     expect(hasAuthInterceptor, isTrue);
     // LogInterceptor is only added in debug mode
@@ -234,8 +247,14 @@ void main() {
 
     expect(dioInstance, isNotNull);
     expect(dioInstance.options.baseUrl, equals('https://test.example.com'));
-    expect(dioInstance.options.connectTimeout, equals(const Duration(seconds: 10)));
-    expect(dioInstance.options.receiveTimeout, equals(const Duration(seconds: 10)));
+    expect(
+      dioInstance.options.connectTimeout,
+      equals(const Duration(seconds: 10)),
+    );
+    expect(
+      dioInstance.options.receiveTimeout,
+      equals(const Duration(seconds: 10)),
+    );
   });
 
   test('multiple DioClient instances can be created independently', () async {
@@ -255,39 +274,44 @@ void main() {
     final secondClient = DioClient(secondConfig);
     await secondClient.initialize();
 
-    expect(firstClient.dio.options.baseUrl, equals('https://first.example.com'));
-    expect(secondClient.dio.options.baseUrl, equals('https://second.example.com'));
+    expect(
+      firstClient.dio.options.baseUrl,
+      equals('https://first.example.com'),
+    );
+    expect(
+      secondClient.dio.options.baseUrl,
+      equals('https://second.example.com'),
+    );
     expect(firstClient.dio, isNot(equals(secondClient.dio)));
   });
 
-  test('certificate callback allows bad certificates in non-production with proxy', () async {
-    config.update(
-      baseUrl: 'https://api.example.com',
-      mockApiDataSource: false,
-      isProduction: false,
-    );
+  test(
+    'certificate callback allows bad certificates in non-production with proxy',
+    () async {
+      config.update(
+        baseUrl: 'https://api.example.com',
+        mockApiDataSource: false,
+        isProduction: false,
+      );
 
-    _setMockProxyResponse(
-      proxyChannel,
-      host: '127.0.0.1',
-      port: 8080,
-    );
+      _setMockProxyResponse(proxyChannel, host: '127.0.0.1', port: 8080);
 
-    await client.initialize();
+      await client.initialize();
 
-    final adapter = client.dio.httpClientAdapter as IOHttpClientAdapter;
+      final adapter = client.dio.httpClientAdapter as IOHttpClientAdapter;
 
-    // Create HttpClient and store it to test the certificate callback
-    final httpClient = adapter.createHttpClient!();
-    expect(httpClient, isNotNull);
+      // Create HttpClient and store it to test the certificate callback
+      final httpClient = adapter.createHttpClient!();
+      expect(httpClient, isNotNull);
 
-    // Note: badCertificateCallback is set but can't be directly accessed/tested
-    // as it's a setter-only property. The callback would be triggered during
-    // actual HTTPS requests with invalid certificates.
-    // This test verifies that the HttpClient is created without errors.
+      // Note: badCertificateCallback is set but can't be directly accessed/tested
+      // as it's a setter-only property. The callback would be triggered during
+      // actual HTTPS requests with invalid certificates.
+      // This test verifies that the HttpClient is created without errors.
 
-    httpClient.close();
-  });
+      httpClient.close();
+    },
+  );
 
   test('base options are configured with correct timeout values', () async {
     config.update(
@@ -316,23 +340,26 @@ void main() {
     await freshClient.initialize();
 
     expect(freshClient.dio, isNotNull);
-    expect(freshClient.dio.options.baseUrl, equals('https://fresh.example.com'));
+    expect(
+      freshClient.dio.options.baseUrl,
+      equals('https://fresh.example.com'),
+    );
   });
 }
 
 void _setMockAssetBundle(Map<String, String> assets) {
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMessageHandler('flutter/assets', (message) async {
-    final keyBytes = message!.buffer.asUint8List();
-    final key = utf8.decode(keyBytes);
-    final asset = assets[key];
-    if (asset == null) {
-      return null;
-    }
-    final encoded = utf8.encode(asset);
-    final bytes = Uint8List.fromList(encoded);
-    return ByteData.view(bytes.buffer);
-  });
+        final keyBytes = message!.buffer.asUint8List();
+        final key = utf8.decode(keyBytes);
+        final asset = assets[key];
+        if (asset == null) {
+          return null;
+        }
+        final encoded = utf8.encode(asset);
+        final bytes = Uint8List.fromList(encoded);
+        return ByteData.view(bytes.buffer);
+      });
 }
 
 void _clearMockAssetBundle() {
@@ -347,15 +374,11 @@ void _setMockProxyResponse(
 }) {
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
-    if (methodCall.method == 'getProxySetting') {
-      return {
-        'enabled': true,
-        'host': host,
-        'port': port,
-      };
-    }
-    return null;
-  });
+        if (methodCall.method == 'getProxySetting') {
+          return {'enabled': true, 'host': host, 'port': port};
+        }
+        return null;
+      });
 }
 
 void _clearMockProxyResponse(MethodChannel channel) {
@@ -368,10 +391,10 @@ class TestAppConfig extends AppConfig {
     required String baseUrl,
     required bool mockApiDataSource,
     required bool isProduction,
-  })  : _baseUrl = baseUrl,
-        _mockApiDataSource = mockApiDataSource,
-        _isProduction = isProduction,
-        super(currentFlavor: Flavor.dev);
+  }) : _baseUrl = baseUrl,
+       _mockApiDataSource = mockApiDataSource,
+       _isProduction = isProduction,
+       super(currentFlavor: Flavor.dev);
 
   String _baseUrl;
   bool _mockApiDataSource;
@@ -386,11 +409,7 @@ class TestAppConfig extends AppConfig {
   @override
   bool get isProduction => _isProduction;
 
-  void update({
-    String? baseUrl,
-    bool? mockApiDataSource,
-    bool? isProduction,
-  }) {
+  void update({String? baseUrl, bool? mockApiDataSource, bool? isProduction}) {
     if (baseUrl != null) {
       _baseUrl = baseUrl;
     }

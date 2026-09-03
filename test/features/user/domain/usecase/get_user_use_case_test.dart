@@ -19,11 +19,7 @@ void main() {
 
   group('GetUserUseCase', () {
     const tUserId = '1';
-    const tUser = User(
-      id: '1',
-      name: 'John Doe',
-      email: 'john@example.com',
-    );
+    const tUser = User(id: '1', name: 'John Doe', email: 'john@example.com');
 
     test('should get user from the repository', () async {
       when(mockRepository.getUser(any)).thenAnswer((_) async => tUser);
@@ -44,12 +40,11 @@ void main() {
     });
 
     test('should throw exception when repository throws', () async {
-      when(mockRepository.getUser(any)).thenThrow(Exception('Repository error'));
+      when(
+        mockRepository.getUser(any),
+      ).thenThrow(Exception('Repository error'));
 
-      expect(
-        () => useCase.call(tUserId),
-        throwsA(isA<Exception>()),
-      );
+      expect(() => useCase.call(tUserId), throwsA(isA<Exception>()));
       verify(mockRepository.getUser(tUserId)).called(1);
     });
 
@@ -66,7 +61,11 @@ void main() {
       const userId1 = '1';
       const userId2 = '2';
       const user1 = User(id: '1', name: 'John Doe', email: 'john@example.com');
-      const user2 = User(id: '2', name: 'Jane Smith', email: 'jane@example.com');
+      const user2 = User(
+        id: '2',
+        name: 'Jane Smith',
+        email: 'jane@example.com',
+      );
 
       when(mockRepository.getUser(userId1)).thenAnswer((_) async => user1);
       when(mockRepository.getUser(userId2)).thenAnswer((_) async => user2);

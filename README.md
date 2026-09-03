@@ -1,8 +1,10 @@
-# Flutter Foundations
+# Flutter Foundations Harness
 
-**Clean Architecture in Flutter | BLoC | Dio**
+**Clean Architecture in Flutter | BLoC | Dio | Agent Harness**
 
-A production-ready Flutter project template implementing Clean Architecture, BLoC state management, Dio HTTP client, multi-flavor configuration, dependency injection, and comprehensive development tooling.
+A production-ready Flutter project template implementing Clean Architecture, BLoC state management, Dio HTTP client, multi-flavor configuration, dependency injection, and an agent-oriented harness for reproducible development.
+
+This repo now treats repository-local knowledge, validation scripts, structural tests, and runtime signals as first-class harness artifacts. Start with [`AGENTS.md`](AGENTS.md) and [`docs/harness/README.md`](docs/harness/README.md) when asking an AI coding agent to work here.
 
 ![Clean Architecture Diagram](docs/images/clean_architecture.png)
 
@@ -22,10 +24,11 @@ A production-ready Flutter project template implementing Clean Architecture, BLo
 - **Code Generation** for models, DI, and mocks
 - **Comprehensive testing** setup with unit, widget, and integration tests
 - **Proxy support** for development environments
+- **Agent harness** with repo-local instructions, structural guards, diagnostics, and structured debug events
 
 ## Prerequisites
 
-- Flutter SDK: 3.35.4 (managed via FVM)
+- Flutter SDK: 3.44.0 (managed via FVM)
 - Dart SDK: >=3.9.2 <4.0.0
 - FVM (Flutter Version Management)
 
@@ -37,9 +40,9 @@ A production-ready Flutter project template implementing Clean Architecture, BLo
 # Install FVM (if not already installed)
 brew install fvm
 
-# Install Flutter 3.35.4 via FVM
-fvm install 3.35.4
-fvm use 3.35.4
+# Install Flutter 3.44.0 via FVM
+fvm install 3.44.0
+fvm use 3.44.0
 ```
 
 ### 2. Install Dependencies
@@ -95,6 +98,21 @@ lib/
 
 ## Development Commands
 
+### Harness
+```bash
+# Inspect local tool versions, generated files, and harness docs
+fvm dart run tool/harness.dart doctor
+
+# Run structural guard tests
+fvm dart run tool/harness.dart structure
+
+# Run format, structural guards, analyze, and tests
+fvm dart run tool/harness.dart check
+
+# Install dependencies and regenerate code
+fvm dart run tool/harness.dart bootstrap
+```
+
 ### Code Generation
 ```bash
 # Generate all code (DI, models, mocks)
@@ -137,7 +155,7 @@ fvm flutter test test/specific_test.dart
 fvm flutter test test/features/user/
 
 # Format code
-dart format .
+fvm dart format .
 ```
 
 ### Cleaning
@@ -362,7 +380,7 @@ fvm flutter test test/features/user/
 1. **Code Quality**:
    - Always run `fvm flutter analyze` before committing changes
    - Ensure all tests pass with `fvm flutter test`
-   - Format code with `dart format .`
+   - Format code with `fvm dart format .`
 
 2. **Architecture**:
    - Follow Clean Architecture layer boundaries:

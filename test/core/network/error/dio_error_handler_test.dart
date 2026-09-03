@@ -64,9 +64,7 @@ void main() {
       final dioError = DioException(
         requestOptions: RequestOptions(path: '/test'),
         type: DioExceptionType.badResponse,
-        response: Response(
-          requestOptions: RequestOptions(path: '/test'),
-        ),
+        response: Response(requestOptions: RequestOptions(path: '/test')),
       );
 
       final result = handleError(dioError);

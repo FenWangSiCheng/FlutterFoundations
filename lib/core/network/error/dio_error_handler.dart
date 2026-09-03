@@ -12,7 +12,8 @@ Exception handleError(DioException error) {
       return ApiException("Send timeout");
     case DioExceptionType.badResponse:
       return ApiException(
-          "Received invalid status code: ${error.response?.statusCode}");
+        "Received invalid status code: ${error.response?.statusCode}",
+      );
     case DioExceptionType.badCertificate:
       return ApiException("Bad certificate");
     case DioExceptionType.cancel:

@@ -41,11 +41,7 @@ void main() {
     });
 
     group('UserLoaded', () {
-      const tUser = User(
-        id: '1',
-        name: 'John Doe',
-        email: 'john@example.com',
-      );
+      const tUser = User(id: '1', name: 'John Doe', email: 'john@example.com');
 
       test('should be a UserState', () {
         const state = UserLoaded(tUser);

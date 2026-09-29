@@ -19,7 +19,8 @@ class UserPage extends StatelessWidget {
         builder: (context, state) {
           if (state is UserLoading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state is UserLoaded) {
+          }
+          if (state is UserLoaded) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -95,36 +96,20 @@ class UserPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<UserBloc>().add(
-                            const LoadUserEvent('1'),
-                          );
-                        },
-                        child: const Text('User 1'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<UserBloc>().add(
-                            const LoadUserEvent('2'),
-                          );
-                        },
-                        child: const Text('User 2'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<UserBloc>().add(
-                            const LoadUserEvent('3'),
-                          );
-                        },
-                        child: const Text('User 3'),
-                      ),
+                      for (final userId in ['1', '2', '3'])
+                        ElevatedButton(
+                          onPressed: () => context.read<UserBloc>().add(
+                            LoadUserEvent(userId),
+                          ),
+                          child: Text('User $userId'),
+                        ),
                     ],
                   ),
                 ],
               ),
             );
-          } else if (state is UserError) {
+          }
+          if (state is UserError) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -138,9 +123,8 @@ class UserPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: () {
-                      context.read<UserBloc>().add(const LoadUserEvent('1'));
-                    },
+                    onPressed: () =>
+                        context.read<UserBloc>().add(const LoadUserEvent('1')),
                     child: const Text('Retry'),
                   ),
                 ],

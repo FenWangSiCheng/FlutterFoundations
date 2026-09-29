@@ -29,11 +29,6 @@ void main() {
       config,
       configureMock: UserMockSetup.configureMockAdapter,
     );
-    config.update(
-      baseUrl: 'https://initial.example.com',
-      mockApiDataSource: false,
-      isProduction: false,
-    );
     _clearMockAssetBundle();
     _clearMockProxyResponse(proxyChannel);
   });

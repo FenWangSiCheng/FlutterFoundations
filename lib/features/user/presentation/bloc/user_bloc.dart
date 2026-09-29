@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import '../../domain/usecase/get_user_use_case.dart';
+
 import '../../domain/failures/user_failure.dart';
+import '../../domain/usecase/get_user_use_case.dart';
 import 'user_event.dart';
 import 'user_state.dart';
 

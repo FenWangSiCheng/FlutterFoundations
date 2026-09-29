@@ -3,43 +3,23 @@ import 'user_mock_responses.dart';
 
 class UserMockSetup {
   static Future<void> configureMockAdapter(DioAdapter dioAdapter) async {
-    // Pre-load mock data to avoid race conditions
     final users = await UserMockResponses.loadUserList();
 
-    // Mock for user list
     dioAdapter.onGet('/users', (server) async {
       return server.reply(200, users, delay: const Duration(milliseconds: 300));
     });
 
-    // Mock for specific users
-    dioAdapter.onGet('/users/1', (server) async {
-      final userData = UserMockResponses.getUserById(users, '1');
-      return server.reply(
-        200,
-        userData,
-        delay: const Duration(milliseconds: 300),
-      );
-    });
+    for (final userId in ['1', '2', '3']) {
+      dioAdapter.onGet('/users/$userId', (server) async {
+        final userData = UserMockResponses.getUserById(users, userId);
+        return server.reply(
+          200,
+          userData,
+          delay: const Duration(milliseconds: 300),
+        );
+      });
+    }
 
-    dioAdapter.onGet('/users/2', (server) async {
-      final userData = UserMockResponses.getUserById(users, '2');
-      return server.reply(
-        200,
-        userData,
-        delay: const Duration(milliseconds: 300),
-      );
-    });
-
-    dioAdapter.onGet('/users/3', (server) async {
-      final userData = UserMockResponses.getUserById(users, '3');
-      return server.reply(
-        200,
-        userData,
-        delay: const Duration(milliseconds: 300),
-      );
-    });
-
-    // Mock for non-existent user
     dioAdapter.onGet(
       '/users/404',
       (server) => server.reply(404, {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../features/user/presentation/bloc/user_bloc.dart';
 import '../../features/user/presentation/bloc/user_event.dart';
 import '../../features/user/presentation/pages/user_page.dart';

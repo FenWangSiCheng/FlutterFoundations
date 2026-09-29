@@ -1,9 +1,10 @@
+import 'package:injectable/injectable.dart';
+
+import '../../../../core/network/error/exception.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/failures/user_failure.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../datasource/remote_datasource.dart';
-import 'package:injectable/injectable.dart';
-import '../../../../core/network/error/exception.dart';
 
 @Injectable(as: UserRepository)
 class UserRepositoryImpl implements UserRepository {

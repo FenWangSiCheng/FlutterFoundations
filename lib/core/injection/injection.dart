@@ -1,18 +1,18 @@
-import '../config/app_config.dart';
-import '../network/dio_client.dart';
-import 'injection.config.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../features/user/data/mock/user_mock_setup.dart';
 import '../../features/user/domain/repositories/user_repository.dart';
 import '../../features/user/domain/usecase/get_user_use_case.dart';
-import '../../features/user/data/mock/user_mock_setup.dart';
+import '../config/app_config.dart';
+import '../network/dio_client.dart';
+import 'injection.config.dart';
 
 final getIt = GetIt.instance;
 
 @InjectableInit()
 Future<void> configureDependencies(AppConfig appConfig) async {
-  // Register AppConfig first
   getIt.registerSingleton<AppConfig>(appConfig);
 
   await getIt.init();

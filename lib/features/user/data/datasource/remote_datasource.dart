@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import '../models/user_model.dart';
 import 'package:injectable/injectable.dart';
+
 import '../../../../core/network/error/dio_error_handler.dart';
+import '../models/user_model.dart';
 
 abstract class RemoteDataSource {
   Future<UserModel> getUser(String userId);

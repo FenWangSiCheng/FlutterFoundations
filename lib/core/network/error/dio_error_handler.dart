@@ -15,6 +15,7 @@ Exception handleError(DioException error) {
     case DioExceptionType.badResponse:
       return ApiException(
         "Received invalid status code: ${error.response?.statusCode}",
+        errorCode: error.response?.statusCode,
       );
     case DioExceptionType.badCertificate:
       return ApiException("Bad certificate");

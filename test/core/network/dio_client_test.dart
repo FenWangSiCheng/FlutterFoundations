@@ -9,6 +9,7 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:flutter_foundations/core/config/app_config.dart';
 import 'package:flutter_foundations/core/network/dio_client.dart';
 import 'package:flutter_foundations/core/network/interceptors/auth_interceptor.dart';
+import 'package:flutter_foundations/features/user/data/mock/user_mock_setup.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,10 @@ void main() {
       mockApiDataSource: false,
       isProduction: false,
     );
-    client = DioClient(config);
+    client = DioClient(
+      config,
+      configureMock: UserMockSetup.configureMockAdapter,
+    );
     config.update(
       baseUrl: 'https://initial.example.com',
       mockApiDataSource: false,
@@ -159,6 +163,10 @@ void main() {
     final dio = client.dio;
     expect(dio.options.baseUrl, equals('https://api.example.com'));
     expect(dio.httpClientAdapter, isA<IOHttpClientAdapter>());
+    expect(
+      (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient,
+      isNull,
+    );
   });
 
   test('initialize does not configure proxy when proxy is empty', () async {
@@ -285,34 +293,6 @@ void main() {
     expect(firstClient.dio, isNot(equals(secondClient.dio)));
   });
 
-  test(
-    'certificate callback allows bad certificates in non-production with proxy',
-    () async {
-      config.update(
-        baseUrl: 'https://api.example.com',
-        mockApiDataSource: false,
-        isProduction: false,
-      );
-
-      _setMockProxyResponse(proxyChannel, host: '127.0.0.1', port: 8080);
-
-      await client.initialize();
-
-      final adapter = client.dio.httpClientAdapter as IOHttpClientAdapter;
-
-      // Create HttpClient and store it to test the certificate callback
-      final httpClient = adapter.createHttpClient!();
-      expect(httpClient, isNotNull);
-
-      // Note: badCertificateCallback is set but can't be directly accessed/tested
-      // as it's a setter-only property. The callback would be triggered during
-      // actual HTTPS requests with invalid certificates.
-      // This test verifies that the HttpClient is created without errors.
-
-      httpClient.close();
-    },
-  );
-
   test('base options are configured with correct timeout values', () async {
     config.update(
       baseUrl: 'https://api.example.com',
@@ -408,6 +388,9 @@ class TestAppConfig extends AppConfig {
 
   @override
   bool get isProduction => _isProduction;
+
+  @override
+  bool get isNeedProxy => !_isProduction;
 
   void update({String? baseUrl, bool? mockApiDataSource, bool? isProduction}) {
     if (baseUrl != null) {

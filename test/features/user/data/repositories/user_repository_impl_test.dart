@@ -5,6 +5,8 @@ import 'package:flutter_foundations/features/user/data/datasource/remote_datasou
 import 'package:flutter_foundations/features/user/data/models/user_model.dart';
 import 'package:flutter_foundations/features/user/data/repositories/user_repository_impl.dart';
 import 'package:flutter_foundations/features/user/domain/entities/user.dart';
+import 'package:flutter_foundations/features/user/domain/failures/user_failure.dart';
+import 'package:flutter_foundations/core/network/error/exception.dart';
 
 import 'user_repository_impl_test.mocks.dart';
 
@@ -51,6 +53,23 @@ void main() {
 
       expect(() => repository.getUser(tUserId), throwsA(isA<Exception>()));
       verify(mockRemoteDataSource.getUser(tUserId)).called(1);
+    });
+
+    test('maps HTTP 404 to a domain failure', () async {
+      when(
+        mockRemoteDataSource.getUser(any),
+      ).thenThrow(ApiException('Not found', errorCode: 404));
+
+      await expectLater(
+        repository.getUser(tUserId),
+        throwsA(
+          isA<UserFailure>().having(
+            (failure) => failure.type,
+            'type',
+            UserFailureType.notFound,
+          ),
+        ),
+      );
     });
 
     test('should pass the correct userId to remote data source', () async {

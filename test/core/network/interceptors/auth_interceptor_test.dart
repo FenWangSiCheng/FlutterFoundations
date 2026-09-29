@@ -5,7 +5,7 @@ import 'package:flutter_foundations/core/network/interceptors/auth_interceptor.d
 
 void main() {
   group('AuthInterceptor', () {
-    test('adds default token header when required header is missing', () {
+    test('does not add an empty token header', () {
       final options = RequestOptions(path: '/test');
       final interceptor = AuthInterceptor();
       final handler = _CapturingRequestInterceptorHandler();
@@ -14,8 +14,21 @@ void main() {
 
       final captured = handler.capturedOptions;
       expect(captured, isNotNull);
-      expect(captured!.headers['token'], equals(''));
+      expect(captured!.headers.containsKey('token'), isFalse);
       expect(captured.headers.containsKey('x-rcms-api-access-token'), isFalse);
+    });
+
+    test('adds the supplied token under the correct header', () {
+      final options = RequestOptions(path: '/test');
+      final interceptor = AuthInterceptor(tokenProvider: () => 'abc123');
+      final handler = _CapturingRequestInterceptorHandler();
+
+      interceptor.onRequest(options, handler);
+
+      expect(
+        handler.capturedOptions!.headers['x-rcms-api-access-token'],
+        'abc123',
+      );
     });
 
     test('keeps existing headers when access token header already exists', () {

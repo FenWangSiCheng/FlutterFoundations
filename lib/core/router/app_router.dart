@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../features/user/presentation/bloc/user_bloc.dart';
+import '../../features/user/presentation/bloc/user_event.dart';
 import '../../features/user/presentation/pages/user_page.dart';
+import '../injection/injection.dart';
 import '../widgets/main_tab_page.dart';
 import 'router_constants.dart';
 
@@ -14,11 +18,13 @@ class AppRouter {
     routes: [
       GoRoute(
         path: RouterPaths.home,
-        builder: (context, state) => const MainTabPage(),
+        builder: (context, state) =>
+            MainTabPage(currentIndex: 0, userPage: _buildUserPage()),
       ),
       GoRoute(
         path: RouterPaths.user,
-        builder: (context, state) => const UserPage(),
+        builder: (context, state) =>
+            MainTabPage(currentIndex: 1, userPage: _buildUserPage()),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
@@ -42,5 +48,10 @@ class AppRouter {
         ),
       ),
     ),
+  );
+
+  static Widget _buildUserPage() => BlocProvider<UserBloc>(
+    create: (_) => getIt<UserBloc>()..add(const LoadUserEvent('1')),
+    child: const UserPage(),
   );
 }

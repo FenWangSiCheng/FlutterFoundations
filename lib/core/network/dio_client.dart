@@ -7,13 +7,14 @@ import 'package:native_flutter_proxy/native_flutter_proxy.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import '../config/app_config.dart';
 import 'interceptors/auth_interceptor.dart';
-import 'mock/mock_setup.dart';
 
 class DioClient {
   final AppConfig _appConfig;
+  final Future<void> Function(DioAdapter)? _configureMock;
   late final Dio _dio;
 
-  DioClient(this._appConfig);
+  DioClient(this._appConfig, {Future<void> Function(DioAdapter)? configureMock})
+    : _configureMock = configureMock;
 
   /// Get the configured Dio instance
   Dio get dio => _dio;
@@ -29,7 +30,9 @@ class DioClient {
     if (_appConfig.mockApiDataSource) {
       await _setupMockAdapter();
     } else {
-      _dio.initHttpClient([await _configureStagingProxy()]);
+      if (_appConfig.isNeedProxy && !_appConfig.isProduction) {
+        _dio.initHttpClient([await _configureProxy()]);
+      }
     }
 
     // Add interceptors
@@ -46,16 +49,21 @@ class DioClient {
   }
 
   /// Configure staging proxy settings
-  Future<_InitAction> _configureStagingProxy() async {
+  Future<_InitAction> _configureProxy() async {
     final proxy = await _getSystemProxy();
-    return _stagingProxy(proxy);
+    return _proxyAction(proxy);
   }
 
   /// Get list of interceptors
   List<Interceptor> _getInterceptors() {
     return [
       AuthInterceptor(),
-      if (kDebugMode) LogInterceptor(requestBody: true, responseBody: true),
+      if (kDebugMode)
+        LogInterceptor(
+          requestHeader: false,
+          requestBody: true,
+          responseBody: true,
+        ),
     ];
   }
 
@@ -76,18 +84,19 @@ class DioClient {
 
   /// Setup mock adapter for development environment
   Future<void> _setupMockAdapter() async {
+    if (_configureMock == null) {
+      throw StateError('Mock API is enabled without a mock configuration.');
+    }
     final dioAdapter = DioAdapter(dio: _dio);
     _dio.httpClientAdapter = dioAdapter;
-    await MockSetup.configureMockAdapter(dioAdapter);
+    await _configureMock(dioAdapter);
   }
 
   /// Create staging proxy configuration action
-  _InitAction _stagingProxy(String proxy) {
+  _InitAction _proxyAction(String proxy) {
     return (HttpClient client) {
-      if (!_appConfig.isProduction && proxy.isNotEmpty) {
+      if (proxy.isNotEmpty) {
         client.findProxy = (uri) => proxy;
-        client.badCertificateCallback =
-            (X509Certificate cert, String host, int port) => true;
       }
     };
   }

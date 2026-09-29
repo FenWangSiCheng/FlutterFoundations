@@ -7,7 +7,7 @@ import 'package:flutter_foundations/features/user/domain/usecase/get_user_use_ca
 import 'package:flutter_foundations/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter_foundations/features/user/presentation/bloc/user_event.dart';
 import 'package:flutter_foundations/features/user/presentation/bloc/user_state.dart';
-import 'package:flutter_foundations/core/network/error/exception.dart';
+import 'package:flutter_foundations/features/user/domain/failures/user_failure.dart';
 
 import 'user_bloc_test.mocks.dart';
 
@@ -120,15 +120,18 @@ void main() {
     );
 
     blocTest<UserBloc, UserState>(
-      'should emit UserError with ApiException message',
+      'should emit UserError for a domain failure',
       build: () {
         when(
           mockGetUserUseCase.call(any),
-        ).thenThrow(ApiException('Connection timeout'));
+        ).thenThrow(const UserFailure(UserFailureType.unavailable));
         return UserBloc(mockGetUserUseCase);
       },
       act: (bloc) => bloc.add(const LoadUserEvent(tUserId)),
-      expect: () => [UserLoading(), const UserError('Connection timeout')],
+      expect: () => [
+        UserLoading(),
+        const UserError('Unable to load user. Please try again.'),
+      ],
     );
   });
 }

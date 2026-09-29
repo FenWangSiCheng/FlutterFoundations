@@ -82,12 +82,12 @@ lib/
 ├── features/              # Feature modules (feature-first)
 │   └── user/
 │       ├── domain/        # Entities, Repository interfaces, UseCases
-│       ├── data/          # DataSources, Models, Repository implementations
+│       ├── data/          # DataSources, Models, repositories, feature mocks
 │       └── presentation/  # Pages, BLoC (events, states, bloc)
 └── core/                  # Shared components
     ├── config/            # App configuration & flavors
     ├── router/            # GoRouter setup
-    ├── network/           # Dio client, interceptors, error handling, mocks
+    ├── network/           # Dio client, interceptors, transport errors
     ├── injection/         # Dependency injection (get_it + injectable)
     ├── widgets/           # Shared widgets
     └── constants/         # App-wide constants
@@ -195,7 +195,7 @@ The architecture follows the **Dependency Rule**: source code dependencies only 
      - Events: User actions
      - States: UI states
      - BLoC: Event-to-state transformation logic
-   - **Dependencies**: Domain layer (use cases) and Data layer (for DI setup)
+   - **Dependencies**: Domain layer (use cases)
    - **Location**: `lib/features/{feature}/presentation/`
 
 ### Data Flow
@@ -239,19 +239,20 @@ Uses `flutter_bloc` following the BLoC pattern:
 ### Multi-Flavor Configuration
 
 Three flavors configured via dart-define-from-file:
-- **dev**: Development environment with mock API and proxy support enabled
+- **dev**: Development environment with mock API enabled
 - **stg**: Staging environment for pre-production testing
 - **prod**: Production environment with optimized settings
 
 Configuration managed by `core/config/app_config.dart`:
 - `Flavor` enum: dev, stg, prod
-- `AppConfig.fromEnvironment()`: Factory constructor reading from dart-define
+- `AppConfig.fromEnvironment()`: Reads the `flavor` dart-define and checks it against the native build flavor
 - `AppConfig.currentFlavor`: Current flavor accessor
 - `AppConfig.isProduction`: Production environment check
 - `AppConfig.flavorTitle`: Human-readable flavor title for UI display
 - `AppConfig.mockApiDataSource`: Boolean flag to enable mock API responses
 - `AppConfig.isNeedProxy`: Boolean flag to enable proxy configuration
-- All dart-define fields use snake_case: `app_name`, `base_url`, `mock_api_data_source`, `is_need_proxy`
+- The dart-define files contain `flavor`; URLs and mock/proxy settings currently come from `AppConfig` getters
+- Missing, unknown, or mismatched flavors fail at startup
 
 Configuration files in `dart_defines/`:
 - `dev.json` - Development settings with mocks enabled
@@ -264,7 +265,8 @@ Uses `go_router` for declarative routing:
 - Centralized router configuration in `core/router/app_router.dart`
 - Route constants defined in `core/router/router_constants.dart`
 - Router registered with DI as `@lazySingleton`
-- Custom error handling with automatic home redirect
+- Custom error page with a button to return home
+- The selected tab follows the current route (`/` or `/user`)
 - Use `context.go()` for navigation, `context.push()` for stacked navigation
 
 ### HTTP Client & Mock API
@@ -272,11 +274,11 @@ Uses `go_router` for declarative routing:
 Located in `core/network/dio_client.dart`:
 - Dio HTTP client with environment-specific base URLs from AppConfig
 - Mock API adapter using `http_mock_adapter` (enabled in dev flavor)
-- Mock responses configured in `core/network/mock/` directory
+- User mock responses configured in `features/user/data/mock/`
 - System proxy detection via `native_flutter_proxy`
-- Auth interceptor for request authentication (`core/network/interceptors/auth_interceptor.dart`)
+- Auth interceptor adds the access token header when a token provider is supplied; no provider is wired in this template
 - Debug logging in development mode using Dio's LogInterceptor
-- Certificate validation handling for non-production environments
+- TLS certificate validation remains enabled when using a development proxy
 
 ## Key Dependencies
 
@@ -378,7 +380,7 @@ fvm flutter test test/features/user/
    - Follow Clean Architecture layer boundaries:
      - Domain layer has NO dependencies on other layers
      - Data layer depends only on domain layer
-     - Presentation layer depends on domain and data layers
+     - Presentation layer depends on domain; the injection and router setup assemble implementations
    - Keep feature code within its module (feature-first organization)
    - Use the existing DI container (`getIt`) rather than manual dependencies
 
@@ -411,22 +413,20 @@ fvm flutter test test/features/user/
 Centralized error handling approach throughout the architecture:
 
 1. **Custom Exceptions** (`core/network/error/exception.dart`):
-   - `ApiException` - API-related errors
-   - `CacheException` - Local storage errors
-   - `NetworkException` - Network connectivity issues
-   - Additional domain-specific exceptions
+   - `ApiException` - transport errors within the data layer
+   - `UserFailure` - user feature failure types exposed by its repository
 
 2. **Error Flow**:
    - `DioException` → `dio_error_handler.dart` → Custom Exceptions
    - Data sources catch platform errors and throw custom exceptions
-   - Repositories propagate exceptions to use cases
-   - Use cases return results (success/failure) to BLoCs
-   - BLoCs catch exceptions and emit error states
+   - Repositories map transport errors to feature failures
+   - Use cases pass entities or feature failures to BLoCs
+   - BLoCs map feature failures to error states
    - UI layer displays user-friendly error messages
 
 3. **Implementation**:
    - Data sources: Catch and throw typed exceptions
-   - Repositories: Propagate exceptions without modification
+   - Repositories: Convert transport exceptions to feature failures
    - BLoCs: Catch exceptions in event handlers, emit error states
    - UI: Listen to error states and show appropriate messages
 

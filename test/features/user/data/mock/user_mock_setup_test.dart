@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 
-import 'package:flutter_foundations/core/network/mock/mock_setup.dart';
+import 'package:flutter_foundations/features/user/data/mock/user_mock_setup.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ void main() {
   });
 
   test('configureMockAdapter registers handlers for user endpoints', () async {
-    await MockSetup.configureMockAdapter(adapter);
+    await UserMockSetup.configureMockAdapter(adapter);
 
     final listResponse = await dio.get('/users');
     expect(listResponse.statusCode, equals(200));

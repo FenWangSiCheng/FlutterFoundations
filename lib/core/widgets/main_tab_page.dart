@@ -1,30 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../features/home/presentation/pages/home_page.dart';
-import '../../features/user/presentation/pages/user_page.dart';
+import '../router/router_constants.dart';
 
-class MainTabPage extends StatefulWidget {
-  const MainTabPage({super.key});
+class MainTabPage extends StatelessWidget {
+  const MainTabPage({
+    super.key,
+    required this.currentIndex,
+    required this.userPage,
+  });
 
-  @override
-  State<MainTabPage> createState() => _MainTabPageState();
-}
-
-class _MainTabPageState extends State<MainTabPage> {
-  int _currentIndex = 0;
-
-  final List<Widget> _pages = [const HomePage(), const UserPage()];
+  final int currentIndex;
+  final Widget userPage;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: _currentIndex, children: _pages),
+      body: currentIndex == 0 ? const HomePage() : userPage,
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        currentIndex: currentIndex,
+        onTap: (index) =>
+            context.go(index == 0 ? RouterPaths.home : RouterPaths.user),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),

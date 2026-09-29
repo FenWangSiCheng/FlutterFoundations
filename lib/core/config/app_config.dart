@@ -5,11 +5,24 @@ class AppConfig {
 
   const AppConfig({required this.currentFlavor});
 
-  factory AppConfig.fromEnvironment() {
-    const flavorString = String.fromEnvironment('flavor', defaultValue: 'prod');
-    final flavor = _parseFlavorFromString(flavorString);
-
-    return AppConfig(currentFlavor: flavor);
+  factory AppConfig.fromEnvironment({String? platformFlavor}) {
+    const definedFlavor = String.fromEnvironment('flavor');
+    if (definedFlavor.isNotEmpty &&
+        platformFlavor != null &&
+        definedFlavor.toLowerCase() != platformFlavor.toLowerCase()) {
+      throw StateError(
+        'Build flavor ($platformFlavor) differs from dart-define flavor ($definedFlavor)',
+      );
+    }
+    final flavorString = definedFlavor.isNotEmpty
+        ? definedFlavor
+        : platformFlavor;
+    if (flavorString == null || flavorString.isEmpty) {
+      throw StateError(
+        'Missing flavor. Use --flavor and dart-define-from-file.',
+      );
+    }
+    return AppConfig(currentFlavor: _parseFlavorFromString(flavorString));
   }
 
   String get appName {
@@ -90,6 +103,6 @@ Flavor _parseFlavorFromString(String flavorString) {
     case 'prod':
       return Flavor.prod;
     default:
-      return Flavor.prod;
+      throw ArgumentError.value(flavorString, 'flavor', 'Unsupported flavor');
   }
 }

@@ -107,6 +107,27 @@ void main() {
           RouterPaths.user,
         );
         expect(find.text('User Info'), findsOneWidget);
+        expect(
+          tester
+              .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+              .currentIndex,
+          1,
+        );
+      });
+
+      testWidgets('tab selection updates the route', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp.router(routerConfig: appRouter.router),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.byIcon(Icons.person).last);
+        await tester.pumpAndSettle();
+
+        expect(
+          appRouter.router.routeInformationProvider.value.uri.path,
+          RouterPaths.user,
+        );
       });
 
       testWidgets('should show error page for invalid route', (tester) async {

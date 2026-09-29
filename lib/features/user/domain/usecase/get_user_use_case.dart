@@ -1,8 +1,6 @@
 import '../entities/user.dart';
 import '../repositories/user_repository.dart';
-import 'package:injectable/injectable.dart';
 
-@injectable
 class GetUserUseCase {
   final UserRepository repository;
 

@@ -4,6 +4,17 @@ import 'package:flutter_foundations/core/config/app_config.dart';
 void main() {
   group('AppConfig', () {
     group('fromEnvironment', () {
+      test('rejects an unsupported flavor', () {
+        expect(
+          () => AppConfig.fromEnvironment(platformFlavor: 'unknown'),
+          throwsArgumentError,
+        );
+      });
+
+      test('requires a flavor', () {
+        expect(() => AppConfig.fromEnvironment(), throwsStateError);
+      });
+
       test('should parse dev flavor from environment', () {
         // Note: Since we cannot set environment variables in tests,
         // this test demonstrates the expected behavior

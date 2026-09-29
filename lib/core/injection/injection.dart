@@ -4,6 +4,9 @@ import 'injection.config.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import '../../features/user/domain/repositories/user_repository.dart';
+import '../../features/user/domain/usecase/get_user_use_case.dart';
+import '../../features/user/data/mock/user_mock_setup.dart';
 
 final getIt = GetIt.instance;
 
@@ -17,10 +20,17 @@ Future<void> configureDependencies(AppConfig appConfig) async {
 
 @module
 abstract class RegisterModule {
+  @injectable
+  GetUserUseCase getUserUseCase(UserRepository repository) =>
+      GetUserUseCase(repository);
+
   @preResolve
   @lazySingleton
   Future<DioClient> dioClient(AppConfig appConfig) async {
-    final client = DioClient(appConfig);
+    final client = DioClient(
+      appConfig,
+      configureMock: UserMockSetup.configureMockAdapter,
+    );
     await client.initialize();
     return client;
   }

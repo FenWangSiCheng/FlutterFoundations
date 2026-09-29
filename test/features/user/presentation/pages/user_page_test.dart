@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -8,7 +9,6 @@ import 'package:flutter_foundations/features/user/presentation/bloc/user_bloc.da
 import 'package:flutter_foundations/features/user/presentation/bloc/user_event.dart';
 import 'package:flutter_foundations/features/user/presentation/bloc/user_state.dart';
 import 'package:flutter_foundations/features/user/presentation/pages/user_page.dart';
-import 'package:flutter_foundations/core/injection/injection.dart';
 
 import 'user_page_test.mocks.dart';
 
@@ -16,19 +16,14 @@ import 'user_page_test.mocks.dart';
 void main() {
   late MockUserBloc mockUserBloc;
 
-  setUp(() async {
-    await getIt.reset();
+  setUp(() {
     mockUserBloc = MockUserBloc();
-    // Mock the getIt call
-    getIt.registerFactory<UserBloc>(() => mockUserBloc);
-  });
-
-  tearDown(() async {
-    await getIt.reset();
   });
 
   Widget makeTestableWidget(Widget child) {
-    return MaterialApp(home: child);
+    return MaterialApp(
+      home: BlocProvider<UserBloc>.value(value: mockUserBloc, child: child),
+    );
   }
 
   group('UserPage', () {

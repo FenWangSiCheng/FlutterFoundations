@@ -25,7 +25,7 @@ A Flutter project template implementing Clean Architecture, BLoC state managemen
 
 ## Prerequisites
 
-- Flutter SDK: 3.44.0 (managed via FVM)
+- Flutter SDK: 3.47.5 (managed via FVM)
 - Dart SDK: >=3.9.2 <4.0.0
 - FVM (Flutter Version Management)
 
@@ -37,9 +37,9 @@ A Flutter project template implementing Clean Architecture, BLoC state managemen
 # Install FVM (if not already installed)
 brew install fvm
 
-# Install Flutter 3.44.0 via FVM
-fvm install 3.44.0
-fvm use 3.44.0
+# Install Flutter 3.47.5 via FVM
+fvm install 3.47.5
+fvm use 3.47.5
 ```
 
 ### 2. Install Dependencies

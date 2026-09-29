@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:native_flutter_proxy/native_flutter_proxy.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import '../config/app_config.dart';
-import '../harness/harness_logger.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'mock/mock_setup.dart';
 
@@ -22,10 +21,6 @@ class DioClient {
   /// Initialize the Dio client with all necessary configurations
   Future<void> initialize() async {
     WidgetsFlutterBinding.ensureInitialized();
-    HarnessLogger.event(
-      'dio.initialize.start',
-      fields: _appConfig.harnessContext,
-    );
 
     // Create and configure Dio instance
     _dio = Dio(_getBaseOptions());
@@ -33,27 +28,12 @@ class DioClient {
     // Configure adapter based on mock setting
     if (_appConfig.mockApiDataSource) {
       await _setupMockAdapter();
-      HarnessLogger.event(
-        'dio.mock_adapter.ready',
-        fields: _appConfig.harnessContext,
-      );
     } else {
       _dio.initHttpClient([await _configureStagingProxy()]);
-      HarnessLogger.event(
-        'dio.http_adapter.ready',
-        fields: _appConfig.harnessContext,
-      );
     }
 
     // Add interceptors
     _dio.interceptors.addAll(_getInterceptors());
-    HarnessLogger.event(
-      'dio.initialize.ready',
-      fields: {
-        ..._appConfig.harnessContext,
-        'interceptor_count': _dio.interceptors.length,
-      },
-    );
   }
 
   /// Get base options for Dio

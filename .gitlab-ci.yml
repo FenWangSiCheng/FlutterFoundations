@@ -7,6 +7,7 @@ before_script:
   - fvm flutter clean
   - fvm flutter pub get
   - bash tool/image_codegen.sh
+  - fvm dart format lib/core/resources/images.dart
   - fvm flutter packages pub run build_runner build --delete-conflicting-outputs
 
 
@@ -22,7 +23,9 @@ test:
     - ios
   allow_failure: false
   script:
-    - fvm dart run tool/harness.dart check
+    - fvm dart format --output=none --set-exit-if-changed lib test
+    - fvm flutter analyze
+    - fvm flutter test
 
 build_android_dev_apk:
   stage: build

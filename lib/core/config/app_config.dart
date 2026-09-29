@@ -79,17 +79,6 @@ class AppConfig {
         return true;
     }
   }
-
-  Map<String, Object?> get harnessContext {
-    return {
-      'flavor': flavorName,
-      'app_name': appName,
-      'base_url': baseUrl,
-      'mock_api_data_source': mockApiDataSource,
-      'is_need_proxy': isNeedProxy,
-      'is_production': isProduction,
-    };
-  }
 }
 
 Flavor _parseFlavorFromString(String flavorString) {

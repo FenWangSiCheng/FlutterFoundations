@@ -1,10 +1,8 @@
-# Flutter Foundations Harness
+# Flutter Foundations
 
-**Clean Architecture in Flutter | BLoC | Dio | Agent Harness**
+**Clean Architecture in Flutter | BLoC | Dio**
 
-A production-ready Flutter project template implementing Clean Architecture, BLoC state management, Dio HTTP client, multi-flavor configuration, dependency injection, and an agent-oriented harness for reproducible development.
-
-This repo now treats repository-local knowledge, validation scripts, structural tests, and runtime signals as first-class harness artifacts. Start with [`AGENTS.md`](AGENTS.md) and [`docs/harness/README.md`](docs/harness/README.md) when asking an AI coding agent to work here.
+A Flutter project template implementing Clean Architecture, BLoC state management, Dio HTTP client, multi-flavor configuration, and dependency injection.
 
 ![Clean Architecture Diagram](docs/images/clean_architecture.png)
 
@@ -24,7 +22,6 @@ This repo now treats repository-local knowledge, validation scripts, structural 
 - **Code Generation** for models, DI, and mocks
 - **Comprehensive testing** setup with unit, widget, and integration tests
 - **Proxy support** for development environments
-- **Agent harness** with repo-local instructions, structural guards, diagnostics, and structured debug events
 
 ## Prerequisites
 
@@ -98,19 +95,14 @@ lib/
 
 ## Development Commands
 
-### Harness
+### Validation
 ```bash
-# Inspect local tool versions, generated files, and harness docs
-fvm dart run tool/harness.dart doctor
+# Check formatting without changing files
+fvm dart format --output=none --set-exit-if-changed lib test
 
-# Run structural guard tests
-fvm dart run tool/harness.dart structure
-
-# Run format, structural guards, analyze, and tests
-fvm dart run tool/harness.dart check
-
-# Install dependencies and regenerate code
-fvm dart run tool/harness.dart bootstrap
+# Run static analysis and tests
+fvm flutter analyze
+fvm flutter test
 ```
 
 ### Code Generation
